@@ -4,31 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/*
-♀️ **요리 레시피 메모장 만들기**
-
-- 입력값
-    - 내가 좋아하는 요리 제목을 먼저 입력합니다.
-    - 요리 별점을 1~5 사이의 소수점이 있는 실수로 입력해 주세요. (ex. 3.5)
-    - 이어서 내가 좋아하는 요리 레시피를 한 문장씩 10문장을 입력합니다.
-- 출력값
-    - 입력이 종료되면 요리 제목을 괄호로 감싸서 먼저 출력해 줍니다.
-    - 이어서, 요리 별점을 소수점을 제외한 정수로만 출력해 줍니다. (ex. 3)
-    - 바로 뒤에 정수 별점을 5점 만점 퍼센트로 표현했을 때 값을 실수로 출력해 줍니다. (ex. 60.0%)
-    - 이어서, 입력한 모든 문장 앞에 번호를 붙여서 모두 출력해 줍니다.
- */
-
 // 상속될수도 있고, 구현 변화 가능성 열어두고 싶음 -> final 없이
 public class RecipeNotebook {
-
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        RecipeData data = readInput(br);
-        RecipeNotebook notebook = new RecipeNotebook(); // static 없이 메서드에 접근
-
-        notebook.printResult(data.getTitle(), data.getScore(), data.getRecipe());
-    }
 
     /**
      * 입력값 받기 외부로부터 받고,새로운 객체를 생성하는 독립적인 작업을 한다고 판단
@@ -38,8 +15,18 @@ public class RecipeNotebook {
      * @throws IOException
      */
     static RecipeData readInput(BufferedReader br) throws IOException {
+        // 제목 입력
+        System.out.println("제목을 입력하세요:");
         String title = br.readLine();
-        double score = Double.parseDouble(br.readLine());
+        double score = 0.0;
+        // 별점 입력
+
+        System.out.println("별점을 입력하세요 (1.0 ~ 5.0):");
+        score = Double.parseDouble(br.readLine());
+        if (score < 1.0 || score > 5.0) {
+            throw new ScoreOutOfRangeException("별점은 (1.0 ~ 5.0)범위 여야합니다.");
+        }
+
         String[] recipe = new String[10]; // 10개로 한정
 
         for (int index = 0; index < 10; index++) {
