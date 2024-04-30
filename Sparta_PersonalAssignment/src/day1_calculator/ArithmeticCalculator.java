@@ -2,6 +2,7 @@ package day1_calculator;
 
 import day1_calculator.enumType.OperatorType;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ArithmeticCalculator extends Calculator {
@@ -9,8 +10,8 @@ public class ArithmeticCalculator extends Calculator {
     private double result = 0;
     private String input;
 
-    public ArithmeticCalculator() {
-        super();
+    public ArithmeticCalculator(BufferedReader br) {
+        super(br);
     }
 
     public void run() throws IOException {

@@ -1,4 +1,8 @@
 package day1_calculator;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /*
         System.out.println("결과: " + result);
         System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
@@ -24,8 +28,8 @@ package day1_calculator;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-
-        Calculator calculator = new Calculator();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Calculator calculator = new Calculator(br);
         calculator.run();
 
     }

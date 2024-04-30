@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class CircleCalculator extends Calculator {
     private double radius;
 
-    public CircleCalculator() {
-        super();
+    public CircleCalculator(BufferedReader br) {
+        super(br);
     }
 
     public void run() throws Exception {

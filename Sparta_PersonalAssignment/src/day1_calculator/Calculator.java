@@ -12,8 +12,8 @@ public class Calculator {
     protected BufferedReader br;
     protected ArrayList<Double> results;
 
-    public Calculator() {
-        this.br = new BufferedReader(new InputStreamReader(System.in));
+    public Calculator(BufferedReader br) {
+        this.br = br;
         this.results = new ArrayList<>();
     }
 
@@ -24,7 +24,7 @@ public class Calculator {
             try {
                 // 입력된 문자열을 변수로
                 CalculationType type = CalculationType.valueOf(selectType.toUpperCase());
-                Calculator instance = type.createInstance();
+                Calculator instance = type.createInstance(br);
                 instance.run();
                 return;
             } catch (IllegalArgumentException e) {
