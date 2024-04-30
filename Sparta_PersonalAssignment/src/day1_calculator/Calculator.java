@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+// static 제거: 독립성 고려
 public class Calculator {
-    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    private static ArrayList<Integer> results = new ArrayList<>();
-    private static int result = 0;
-    private static String input;
+    private BufferedReader br;
+    private ArrayList<Integer> results;
+    private int result = 0;
+    private String input;
 
-    public static void run() throws IOException {
+    public Calculator() {
+        this.br = new BufferedReader(new InputStreamReader(System.in));
+        this.results = new ArrayList<>();
+    }
+
+    public void run() throws IOException {
         String operator;
         int firstNumber, secondNumber;
-
         while (true) {
             firstNumber = getNumber("첫번째 숫자를 입력해주세요");
             secondNumber = getNumber("두번째 숫자를 입력해주세요");
@@ -32,8 +37,12 @@ public class Calculator {
         }
     }
 
-    // 숫자 받아오기
-    static int getNumber(String prompt) {
+    /**
+     *
+     * @param prompt
+     * @return
+     */
+    int getNumber(String prompt) {
         int number = 0;
         boolean vaild = false;
         while (!vaild) {
@@ -51,7 +60,7 @@ public class Calculator {
         return number;
     }
 
-    static String getOperator(String prompt) throws IOException {
+    String getOperator(String prompt) throws IOException {
         String operator;
         while (true) {
             System.out.println(prompt);
@@ -65,7 +74,7 @@ public class Calculator {
         return operator;
     }
 
-    static boolean calculate(String operator, int firstNumber, int secondNumber) {
+    boolean calculate(String operator, int firstNumber, int secondNumber) {
         boolean valid = false;
         while (!valid) {
             try {
@@ -105,7 +114,7 @@ public class Calculator {
         return true;
     }
 
-    static void inputInquiry(String promt) throws IOException {
+    void inputInquiry(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
         if (input.equals("inquiry")) {
@@ -113,7 +122,7 @@ public class Calculator {
         }
     }
 
-    static void inputRemove(String promt) throws IOException {
+    void inputRemove(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
 
@@ -124,7 +133,7 @@ public class Calculator {
         }
     }
 
-    static boolean inputExit(String promt) throws IOException {
+    boolean inputExit(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
 
