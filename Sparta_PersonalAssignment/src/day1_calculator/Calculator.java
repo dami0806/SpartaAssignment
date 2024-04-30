@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 // static 제거: 독립성 고려
 public class Calculator {
-    private BufferedReader br;
-
+    protected BufferedReader br;
+    protected ArrayList<Double> results;
     public Calculator() {
         this.br = new BufferedReader(new InputStreamReader(System.in));
+        this.results = new ArrayList<>();
     }
 
     public void run() throws Exception {
@@ -32,4 +33,34 @@ public class Calculator {
                 break;
         }
     }
+
+    protected void inputInquiry(String promt) throws IOException {
+        System.out.println(promt);
+        String input = br.readLine();
+        if (input.equals("inquiry")) {
+            System.out.println(results);
+        }
+    }
+
+    protected void inputRemove(String promt) throws IOException {
+        System.out.println(promt);
+        String input = br.readLine();
+
+        if (input.equals("remove")) {
+            results.remove(0);
+            System.out.println("첫번째 연산 결과를 삭제했습니다");
+            System.out.println(results);
+        }
+    }
+
+    protected boolean inputExit(String promt) throws IOException {
+        System.out.println(promt);
+        String input = br.readLine();
+
+        if (input.equals("exit")) {
+            return true;
+        }
+        return false;
+    }
 }
+

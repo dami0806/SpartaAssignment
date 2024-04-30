@@ -7,14 +7,11 @@ import java.util.ArrayList;
 
 public class ArithmeticCalculator extends Calculator {
     private Operator operator;
-    private BufferedReader br;
-    private ArrayList<Integer> results;
-    private int result = 0;
+    private double result = 0;
     private String input;
 
     public ArithmeticCalculator() {
-        this.br = new BufferedReader(new InputStreamReader(System.in));
-        this.results = new ArrayList<>();
+       super();
     }
 
     public void run() throws IOException {
@@ -23,7 +20,7 @@ public class ArithmeticCalculator extends Calculator {
 
     private void arithmeticCalcuator() throws IOException {
         Operator operator;
-        int firstNumber, secondNumber;
+        double firstNumber, secondNumber;
         while (true) {
 
             firstNumber = getNumber("첫번째 숫자를 입력해주세요");
@@ -41,7 +38,7 @@ public class ArithmeticCalculator extends Calculator {
     }
 
     // 유효한 정수 받아오기
-    int getNumber(String prompt) {
+    double getNumber(String prompt) {
         String number;
 
         while (true) {
@@ -65,8 +62,8 @@ public class ArithmeticCalculator extends Calculator {
     }
 
     // 숫자 파싱
-    private int parseNumber(String number) {
-        return Integer.parseInt(number);
+    private double parseNumber(String number) {
+        return Double.parseDouble(number);
     }
 
     // 연산자
@@ -104,12 +101,12 @@ public class ArithmeticCalculator extends Calculator {
 
 
     // 예외처리 대신 if문이 제로 디비전에서는 더 효율적으로 보임
-    private boolean calculate(Operator operator, int firstNumber, int secondNumber) {
+    private boolean calculate(Operator operator, double firstNumber, double secondNumber) {
         while (true) {
             try {
                 result = operator.operator(firstNumber, secondNumber);
                 results.add(result);
-                System.out.printf("%d %s %d = %d\n", firstNumber, operator.getSymbol(), secondNumber, result);
+                System.out.printf("%.2f %s %.2f = %.2f\n", firstNumber, operator.getSymbol(), secondNumber, result);
                 return true;
             } catch (ArithmeticException e) {
                 System.out.println(e.getMessage() + " 다시 시도해주세요.");
@@ -117,33 +114,34 @@ public class ArithmeticCalculator extends Calculator {
             }
         }
     }
-
-    private void inputInquiry(String promt) throws IOException {
-        System.out.println(promt);
-        input = br.readLine();
-        if (input.equals("inquiry")) {
-            System.out.println(results);
-        }
-    }
-
-    private void inputRemove(String promt) throws IOException {
-        System.out.println(promt);
-        input = br.readLine();
-
-        if (input.equals("remove")) {
-            results.remove(0);
-            System.out.println("첫번째 연산 결과를 삭제했습니다");
-            System.out.println(results);
-        }
-    }
-
-    private boolean inputExit(String promt) throws IOException {
-        System.out.println(promt);
-        input = br.readLine();
-
-        if (input.equals("exit")) {
-            return true;
-        }
-        return false;
-    }
 }
+//
+//    private void inputInquiry(String promt) throws IOException {
+//        System.out.println(promt);
+//        input = br.readLine();
+//        if (input.equals("inquiry")) {
+//            System.out.println(results);
+//        }
+//    }
+//
+//    private void inputRemove(String promt) throws IOException {
+//        System.out.println(promt);
+//        input = br.readLine();
+//
+//        if (input.equals("remove")) {
+//            results.remove(0);
+//            System.out.println("첫번째 연산 결과를 삭제했습니다");
+//            System.out.println(results);
+//        }
+//    }
+//
+//    private boolean inputExit(String promt) throws IOException {
+//        System.out.println(promt);
+//        input = br.readLine();
+//
+//        if (input.equals("exit")) {
+//            return true;
+//        }
+//        return false;
+//    }
+//}
