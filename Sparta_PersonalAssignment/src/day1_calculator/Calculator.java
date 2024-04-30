@@ -16,22 +16,18 @@ public class Calculator {
     }
 
     public void run() throws Exception {
-
-        String selectType;// "arithmetic"/ "circle"선택
-
-        System.out.println("arithmetic / circle 선택하세요");
-        selectType = br.readLine();
-        switch (selectType) {
-            case "arithmetic":
-                ArithmeticCalculator ar = new ArithmeticCalculator();
-                ar.run();
-                break;
-            case "circle":
-                CircleCalculator c = new CircleCalculator();
-                c.run();
-                break;
-            default:
-                break;
+        while (true) {
+            System.out.println("arithmetic / circle 선택하세요");
+            String selectType = br.readLine().toLowerCase();
+            try {
+                // 입력된 문자열을 변수로
+                CalculationType type = CalculationType.valueOf(selectType.toUpperCase());
+                Calculator instance = type.createInstance();
+                instance.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println("유효하지 않은 계산기타입입니다.");
+            }
         }
     }
 
