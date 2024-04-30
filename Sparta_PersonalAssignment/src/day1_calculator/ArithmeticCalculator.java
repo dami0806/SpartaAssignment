@@ -70,7 +70,7 @@ public class ArithmeticCalculator extends Calculator {
     }
 
     // 연산자
-    Operator getOperator(String prompt) {
+    private Operator getOperator(String prompt) {
         String operInput;
 
         while (true) {
@@ -104,7 +104,7 @@ public class ArithmeticCalculator extends Calculator {
 
 
     // 예외처리 대신 if문이 제로 디비전에서는 더 효율적으로 보임
-    boolean calculate(Operator operator, int firstNumber, int secondNumber) {
+    private boolean calculate(Operator operator, int firstNumber, int secondNumber) {
         while (true) {
             try {
                 result = operator.operator(firstNumber, secondNumber);
@@ -118,7 +118,7 @@ public class ArithmeticCalculator extends Calculator {
         }
     }
 
-    void inputInquiry(String promt) throws IOException {
+    private void inputInquiry(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
         if (input.equals("inquiry")) {
@@ -126,7 +126,7 @@ public class ArithmeticCalculator extends Calculator {
         }
     }
 
-    void inputRemove(String promt) throws IOException {
+    private void inputRemove(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
 
@@ -137,7 +137,7 @@ public class ArithmeticCalculator extends Calculator {
         }
     }
 
-    boolean inputExit(String promt) throws IOException {
+    private boolean inputExit(String promt) throws IOException {
         System.out.println(promt);
         input = br.readLine();
 

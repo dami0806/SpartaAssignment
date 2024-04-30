@@ -23,11 +23,16 @@ import java.util.ArrayList;
         - Getter, Setter 메서드를 구현합니다.
         - 원의 넓이 결과값들을 조회하는 메서드를 구현합니다.
 
+        Enum
+        제네릭스
+        람다 & 스트림
+
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         Calculator calculator = new Calculator();
         calculator.run();
+
     }
 }

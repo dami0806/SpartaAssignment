@@ -13,12 +13,11 @@ public class Calculator {
         this.br = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public void run() throws IOException {
+    public void run() throws Exception {
 
         String selectType;// "arithmetic"/ "circle"선택
-        int firstNumber, secondNumber;
 
-        System.out.println("arithmetic / circle선택하세요");
+        System.out.println("arithmetic / circle 선택하세요");
         selectType = br.readLine();
         switch (selectType) {
             case "arithmetic":
@@ -26,7 +25,8 @@ public class Calculator {
                 ar.run();
                 break;
             case "circle":
-                //circleCalcuator();
+                CircleCalculator c = new CircleCalculator();
+                c.run();
                 break;
             default:
                 break;
