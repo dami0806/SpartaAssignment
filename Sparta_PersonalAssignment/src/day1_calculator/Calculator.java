@@ -20,7 +20,9 @@ public class Calculator {
     public void run() throws IOException {
         String operator;
         int firstNumber, secondNumber;
+
         while (true) {
+
             firstNumber = getNumber("첫번째 숫자를 입력해주세요");
             secondNumber = getNumber("두번째 숫자를 입력해주세요");
             operator = getOperator("연산자를 입력해주세요 (+, -, *, /)");
@@ -37,43 +39,63 @@ public class Calculator {
         }
     }
 
-    /**
-     *
-     * @param prompt
-     * @return
-     */
+    // 유효한 정수 받아오기
     int getNumber(String prompt) {
-        int number = 0;
-        boolean vaild = false;
-        while (!vaild) {
+        String number;
+
+        while (true) {
             System.out.println(prompt);
+            number = readInput();
             try {
-                number = Integer.parseInt(br.readLine());
-                vaild = true;
+                return parseNumber(number);
             } catch (NumberFormatException e) {
                 System.out.println("유효한 숫자가 아닙니다. 다시 입력해주세요.");
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
-        return number;
     }
 
-    String getOperator(String prompt) throws IOException {
+    // 입력 읽기
+    private String readInput() {
+        try {
+            return br.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException("입력 도중 오류가 발생했습니다.", e);
+        }
+    }
+
+    // 숫자 파싱
+    private int parseNumber(String number) {
+        return Integer.parseInt(number);
+    }
+
+    // 연산자
+    String getOperator(String prompt) {
         String operator;
         while (true) {
             System.out.println(prompt);
-
-            operator = br.readLine();
-            if (operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/")) {
-                break;
+            operator = readInputOperator();
+            if (rightOperator(operator)) {
+                return operator;
             }
             System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /):");
         }
-        return operator;
     }
 
+    // Operator 받아오기
+    private String readInputOperator() {
+        try {
+            return br.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException("입력 도중 오류가 발생했습니다.", e);
+        }
+    }
+
+    // Operator 유효성 판별
+    private boolean rightOperator(String operator) {
+        return operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/");
+    }
+
+    // 예외처리 대신 if문이 제로 디비전에서는 더 효율적으로 보임
     boolean calculate(String operator, int firstNumber, int secondNumber) {
         boolean valid = false;
         while (!valid) {
@@ -105,8 +127,6 @@ public class Calculator {
             } catch (ArithmeticException e) {
                 System.out.println(e.getMessage());
                 secondNumber = getNumber("두번째 숫자를 다시 입력해주세요:");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
         results.add(result);
@@ -142,5 +162,4 @@ public class Calculator {
         }
         return false;
     }
-
 }
