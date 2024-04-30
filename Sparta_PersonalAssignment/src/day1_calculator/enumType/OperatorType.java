@@ -1,27 +1,28 @@
-package day1_calculator;
+package day1_calculator.enumType;
 
+//패키지 이동 => 추상메서드 public 변환
 public enum OperatorType {
     ADD("+") {
         @Override
-        double apply(double firstNumber, double secondNumber) {
+        public double apply(double firstNumber, double secondNumber) {
             return firstNumber + secondNumber;
         }
     },
     SUBTRACT("-") {
         @Override
-        double apply(double firstNumber, double secondNumber) {
+        public double apply(double firstNumber, double secondNumber) {
             return firstNumber - secondNumber;
         }
     },
     MULTIPLY("*") {
         @Override
-        double apply(double firstNumber, double secondNumber) {
+        public double apply(double firstNumber, double secondNumber) {
             return firstNumber * secondNumber;
         }
     },
     DIVIDE("/") {
         @Override
-        double apply(double firstNumber, double secondNumber) {
+        public double apply(double firstNumber, double secondNumber) {
             if (secondNumber == 0) {
                 throw new ArithmeticException("0으로 나눌 수 없습니다.");
             }
@@ -30,7 +31,7 @@ public enum OperatorType {
     },
     MODULO("%") {
         @Override
-        double apply(double firstNumber, double secondNumber) {
+        public double apply(double firstNumber, double secondNumber) {
             if (secondNumber == 0) {
                 throw new ArithmeticException("0으로 나눌 수 없습니다.");
             }
@@ -59,5 +60,5 @@ public enum OperatorType {
     }
 
 
-    abstract double apply(double firstNumber, double secondNumber);
+    public abstract double apply(double firstNumber, double secondNumber);
 }

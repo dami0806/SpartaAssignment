@@ -1,9 +1,8 @@
 package day1_calculator;
 
-import java.io.BufferedReader;
+import day1_calculator.enumType.OperatorType;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class ArithmeticCalculator extends Calculator {
     private OperatorType operator;

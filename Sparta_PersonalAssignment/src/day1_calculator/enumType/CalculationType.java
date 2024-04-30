@@ -1,4 +1,8 @@
-package day1_calculator;
+package day1_calculator.enumType;
+
+import day1_calculator.ArithmeticCalculator;
+import day1_calculator.Calculator;
+import day1_calculator.CircleCalculator;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -6,13 +10,13 @@ import java.lang.reflect.InvocationTargetException;
 public enum CalculationType {
     ARITHMETIC(ArithmeticCalculator.class) {
         @Override
-        Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        public Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
             return this.getCalculatorClass().getDeclaredConstructor().newInstance();
         }
     },
     CIRCLE(CircleCalculator.class) {
         @Override
-        Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        public Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
             return this.getCalculatorClass().getDeclaredConstructor().newInstance();
         }
     };
@@ -29,6 +33,6 @@ public enum CalculationType {
     }
 
     // 생성자로 사용해서 각 계산기의 인스턴스를 생성
-    abstract Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+    public abstract Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 
 }

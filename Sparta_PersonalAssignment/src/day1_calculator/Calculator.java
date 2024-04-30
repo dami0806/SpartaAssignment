@@ -1,5 +1,7 @@
 package day1_calculator;
 
+import day1_calculator.enumType.CalculationType;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
