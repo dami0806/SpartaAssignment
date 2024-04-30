@@ -1,3 +1,4 @@
+/*
 package day1_calculator;
 
 public class MultiplyOperator implements Operator {
@@ -11,3 +12,4 @@ public class MultiplyOperator implements Operator {
         return "*";
     }
 }
+*/

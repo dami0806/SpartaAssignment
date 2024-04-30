@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Calculator {
     protected BufferedReader br;
     protected ArrayList<Double> results;
+
     public Calculator() {
         this.br = new BufferedReader(new InputStreamReader(System.in));
         this.results = new ArrayList<>();
@@ -34,33 +35,50 @@ public class Calculator {
         }
     }
 
+    // 조회하기
     protected void inputInquiry(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
-        if (input.equals("inquiry")) {
-            System.out.println(results);
+
+        if (input.equalsIgnoreCase("inquiry")) {
+
+            //포멧팅
+            formatResults();
         }
     }
 
+    // 삭제하기
     protected void inputRemove(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
 
-        if (input.equals("remove")) {
+        if (input.equalsIgnoreCase("remove")) {
+
+            if (results.isEmpty()) {
+                System.out.println("삭제할 결과가 없습니다.");
+                return;
+            }
             results.remove(0);
             System.out.println("첫번째 연산 결과를 삭제했습니다");
-            System.out.println(results);
+            formatResults();
         }
     }
 
+    // 끝내기
     protected boolean inputExit(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
 
-        if (input.equals("exit")) {
+        if (input.equalsIgnoreCase("exit")) {
             return true;
         }
         return false;
     }
+
+    // 결과 포멧팅
+    private void formatResults() {
+        results.forEach(result -> System.out.printf("%.2f\n", result));
+    }
+
 }
 

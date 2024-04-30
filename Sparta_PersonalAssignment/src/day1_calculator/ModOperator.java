@@ -1,3 +1,4 @@
+/*
 package day1_calculator;
 
 public class ModOperator implements Operator {
@@ -8,8 +9,10 @@ public class ModOperator implements Operator {
         }
         return firstNumber % secondNumber;
     }
+
     @Override
     public String getSymbol() {
         return "%";
     }
 }
+*/

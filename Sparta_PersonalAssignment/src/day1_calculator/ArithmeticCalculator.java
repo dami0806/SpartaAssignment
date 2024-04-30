@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ArithmeticCalculator extends Calculator {
-    private Operator operator;
+    private OperatorType operator;
     private double result = 0;
     private String input;
 
     public ArithmeticCalculator() {
-       super();
+        super();
     }
 
     public void run() throws IOException {
@@ -19,7 +19,7 @@ public class ArithmeticCalculator extends Calculator {
     }
 
     private void arithmeticCalcuator() throws IOException {
-        Operator operator;
+        OperatorType operator;
         double firstNumber, secondNumber;
         while (true) {
 
@@ -67,26 +67,32 @@ public class ArithmeticCalculator extends Calculator {
     }
 
     // 연산자
-    private Operator getOperator(String prompt) {
+    private OperatorType getOperator(String prompt) {
         String operInput;
 
         while (true) {
             System.out.println(prompt);
             operInput = readInputOperator();
-            switch (operInput) {
-                case "+":
-                    return new AddOperator();
-                case "-":
-                    return new SubtractOperator();
-                case "*":
-                    return new MultiplyOperator();
-                case "/":
-                    return new DivideOperator();
-                case "%":
-                    return new ModOperator();
-                default:
+            try {
+                return OperatorType.getFromSymbol(operInput);
+
+            } catch (IllegalArgumentException e) {
                     System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /, %):");
             }
+//            switch (operInput) {
+//                case "+":
+//                    return new AddOperator();
+//                case "-":
+//                    return new SubtractOperator();
+//                case "*":
+//                    return new MultiplyOperator();
+//                case "/":
+//                    return new DivideOperator();
+//                case "%":
+//                    return new ModOperator();
+//                default:
+//                    System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /, %):");
+//            }
         }
     }
 
@@ -101,10 +107,10 @@ public class ArithmeticCalculator extends Calculator {
 
 
     // 예외처리 대신 if문이 제로 디비전에서는 더 효율적으로 보임
-    private boolean calculate(Operator operator, double firstNumber, double secondNumber) {
+    private boolean calculate(OperatorType operator, double firstNumber, double secondNumber) {
         while (true) {
             try {
-                result = operator.operator(firstNumber, secondNumber);
+                result = operator.apply(firstNumber, secondNumber);
                 results.add(result);
                 System.out.printf("%.2f %s %.2f = %.2f\n", firstNumber, operator.getSymbol(), secondNumber, result);
                 return true;
@@ -115,33 +121,3 @@ public class ArithmeticCalculator extends Calculator {
         }
     }
 }
-//
-//    private void inputInquiry(String promt) throws IOException {
-//        System.out.println(promt);
-//        input = br.readLine();
-//        if (input.equals("inquiry")) {
-//            System.out.println(results);
-//        }
-//    }
-//
-//    private void inputRemove(String promt) throws IOException {
-//        System.out.println(promt);
-//        input = br.readLine();
-//
-//        if (input.equals("remove")) {
-//            results.remove(0);
-//            System.out.println("첫번째 연산 결과를 삭제했습니다");
-//            System.out.println(results);
-//        }
-//    }
-//
-//    private boolean inputExit(String promt) throws IOException {
-//        System.out.println(promt);
-//        input = br.readLine();
-//
-//        if (input.equals("exit")) {
-//            return true;
-//        }
-//        return false;
-//    }
-//}

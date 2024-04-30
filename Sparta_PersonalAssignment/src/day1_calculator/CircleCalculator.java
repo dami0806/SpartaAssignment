@@ -15,6 +15,7 @@ public class CircleCalculator extends Calculator {
     public void run() throws Exception {
         arithmeticCalcuator();
     }
+
     private void arithmeticCalcuator() throws IOException {
         while (true) {
             if (!calculate()) continue;
