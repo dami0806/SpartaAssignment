@@ -1,0 +1,34 @@
+package day1_calculator;
+
+import java.lang.reflect.InvocationTargetException;
+
+// enum의 각 상수를 class와 연결
+public enum CalculationType {
+    ARITHMETIC(ArithmeticCalculator.class) {
+        @Override
+        Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+            return this.getCalculatorClass().getDeclaredConstructor().newInstance();
+        }
+    },
+    CIRCLE(CircleCalculator.class) {
+        @Override
+        Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+            return this.getCalculatorClass().getDeclaredConstructor().newInstance();
+        }
+    };
+
+    // 해당 계산기 클래스를 연결
+    private final Class<? extends Calculator> calculatorClass;
+
+    public Class<? extends Calculator> getCalculatorClass() {
+        return calculatorClass;
+    }
+
+    CalculationType(Class<? extends Calculator> calculatorClass) {
+        this.calculatorClass = calculatorClass;
+    }
+
+    // 생성자로 사용해서 각 계산기의 인스턴스를 생성
+    abstract Calculator createInstance() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+
+}

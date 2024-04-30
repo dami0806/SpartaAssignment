@@ -26,7 +26,7 @@ public class Calculator {
                 instance.run();
                 return;
             } catch (IllegalArgumentException e) {
-                System.out.println("유효하지 않은 계산기타입입니다.");
+                System.out.println("유효하지 않은 계산기 타입입니다.");
             }
         }
     }

@@ -79,20 +79,6 @@ public class ArithmeticCalculator extends Calculator {
             } catch (IllegalArgumentException e) {
                     System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /, %):");
             }
-//            switch (operInput) {
-//                case "+":
-//                    return new AddOperator();
-//                case "-":
-//                    return new SubtractOperator();
-//                case "*":
-//                    return new MultiplyOperator();
-//                case "/":
-//                    return new DivideOperator();
-//                case "%":
-//                    return new ModOperator();
-//                default:
-//                    System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /, %):");
-//            }
         }
     }
 
