@@ -1,10 +1,4 @@
 package day1_calculator;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 /*
         System.out.println("결과: " + result);
         System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
@@ -28,7 +22,7 @@ import java.util.ArrayList;
         람다 & 스트림
 
  */
-public class Main {
+public class App {
     public static void main(String[] args) throws Exception {
 
         Calculator calculator = new Calculator();
