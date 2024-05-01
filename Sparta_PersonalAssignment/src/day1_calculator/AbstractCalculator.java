@@ -13,12 +13,6 @@ public abstract class AbstractCalculator implements ICalculator {
     private BufferedReader br;
     private ArrayList<Double> results;
 
-
-
-    public void setBr(BufferedReader br) {
-        this.br = br;
-    }
-
     public BufferedReader getBr() {
         return br;
     }
@@ -27,17 +21,14 @@ public abstract class AbstractCalculator implements ICalculator {
         return results;
     }
 
-    public void setResults(ArrayList<Double> results) {
-        this.results = results;
-    }
-
     public AbstractCalculator(BufferedReader br) {
         this.br = br;
         this.results = new ArrayList<>();
     }
 
-    protected String readInput() {
+    protected String readInput(String promt) {
         try {
+            System.out.println(promt);
             return br.readLine();
         } catch (IOException e) {
             throw new RuntimeException("입력 도중 오류가 발생했습니다.", e);
@@ -47,8 +38,7 @@ public abstract class AbstractCalculator implements ICalculator {
     protected double getNumber(String prompt) {
         String number;
         while (true) {
-            System.out.println(prompt);
-            number = readInput();
+            number = readInput(prompt);
             try {
                 return Double.parseDouble(number);
             } catch (NumberFormatException e) {

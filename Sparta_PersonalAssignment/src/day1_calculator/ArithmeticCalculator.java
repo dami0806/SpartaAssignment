@@ -50,7 +50,7 @@ public class ArithmeticCalculator extends Calculator implements IArithmeticCalcu
 
     @Override
     public String resultStr(ArithmeticParams param) {
-        return  String.format("%.2f %s %.2f = %.2f\n", param.getFirstNumber(), operator.getSymbol(), param.getSecondNumber(), result);
+        return String.format("%.2f %s %.2f = %.2f\n", param.getFirstNumber(), operator.getSymbol(), param.getSecondNumber(), result);
     }
 
     // imple IArithmetic
@@ -75,14 +75,14 @@ public class ArithmeticCalculator extends Calculator implements IArithmeticCalcu
             }
         }
     }
-@Override
+
+    @Override
     // 연산자
     public OperatorType getOperator(String prompt) {
         String operInput;
 
         while (true) {
-            System.out.println(prompt);
-            operInput = readInput();
+            operInput = readInput(prompt);
             try {
                 return OperatorType.getFromSymbol(operInput);
 
