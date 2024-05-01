@@ -8,31 +8,60 @@ import java.util.ArrayList;
 public class App {
     // 입력값을 객체 생성 기다리지 않고 받기
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    ArrayList<Integer> results = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         App app = new App();
 
+        while (true) {
+            System.out.println("계산기를 선택하세요: 1.arithmetic 2.circle (숫자입력)");
+            int calculatorType = 0;
+            while (true) {
+                try {
+                    calculatorType = Integer.parseInt(getInput(br));
+                    if (calculatorType == 1 || calculatorType == 2) {
+                        break;
+                    } else {
+                        System.out.println("1 또는 2를 입력해주세요.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("유효한 숫자를 입력해주세요.");
+                }
+            }
+
+            if (calculatorType == 1) {
+                app.handleArithmeticCalculator();
+
+            } else if (calculatorType == 2) {
+                app.handleCircleCalculator();
+            }
+            System.out.println("없는 계산기입니다.");
+            return;
+        }
+    }
+
+    private void handleArithmeticCalculator() throws IOException {
+
         String symbol;
-        int firstNumber, secondNumber, result;
+        double firstNumber, secondNumber, result;
+
+        System.out.println(" -- 사칙연산 계산기 -- ");
+
         while (true) {
             System.out.println("첫번째 연산자입력:");
-            firstNumber = app.inputNumber(getInput(br));
+            firstNumber = inputNumber(getInput(br));
 
             System.out.println("두번째 연산자입력:");
-            secondNumber = app.inputNumber(getInput(br));
+            secondNumber = inputNumber(getInput(br));
 
             System.out.print("사칙연산 기호를 입력하세요: ");
-            symbol = app.inputOperator(getInput(br));
+            symbol = inputOperator(getInput(br));
 
-            result = app.calculatorResult(firstNumber, secondNumber, symbol);
+            ArithmeticCalculator arithmeticCalculator = new ArithmeticCalculator(symbol, firstNumber, secondNumber);
+            result = arithmeticCalculator.calculate();
+            System.out.printf("연산 결과: %.2f %s %.2f = %.2f\n", firstNumber, symbol, secondNumber, result);
 
-            app.addArr(result);
-
-            System.out.println("결과: " + result);
-            app.addArr(result);
-            app.removeArr();
-            app.inquiry();
+            arithmeticCalculator.inquiry();
+            arithmeticCalculator.removeResult();
 
             System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
             if (getInput(br).toLowerCase().equals("exit")) {
@@ -41,37 +70,37 @@ public class App {
         }
     }
 
-    private void inquiry() {
-        System.out.println("저장된 연산결과를 조회하시겠습니까? (inquiry 입력 시 조회)");
+    private void handleCircleCalculator() throws IOException {
 
-        for (int i : results) {
-            System.out.printf("%d ", i);
-            System.out.println("");
-        }
-    }
+        double radius, result = 0;
+        System.out.println(" -- 원의 넓이 계산기 -- ");
 
-    private void addArr(int result) {
-        results.add(result);
-    }
+        while (true) {
+            System.out.println("원의 반지름 입력:");
+            radius = inputNumber(getInput(br));
 
-    private void removeArr() throws IOException {
-        System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제)");
-        if (getInput(br).toLowerCase().equals("remove")) {
-            if (results.isEmpty()) {
-                System.out.println("결과배열이 비어있습니다.");
+            CircleCalculator circleCalculator = new CircleCalculator(radius);
+            result = circleCalculator.calculate();
+            System.out.printf("원의 넓이: %.2f * %.2f * ℔ = %.2f\n", radius, radius, result);
+
+            circleCalculator.inquiry();
+            circleCalculator.removeResult();
+
+            System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
+            if (getInput(br).toLowerCase().equals("exit")) {
+                break;
             }
-            results.remove(0);
         }
     }
 
-    private static String getInput(BufferedReader br) throws IOException {
+    static String getInput(BufferedReader br) throws IOException {
         return br.readLine();
     }
 
-    private int inputNumber(String input) throws IOException {
+    private double inputNumber(String input) throws IOException {
         while (true) {
             try {
-                return Integer.parseInt(input);
+                return Double.parseDouble(input);
             } catch (NumberFormatException e) {
                 System.out.println("유효한 숫자를 입력해주세요");
                 input = br.readLine();
@@ -89,29 +118,4 @@ public class App {
             }
         }
     }
-
-    private int calculatorResult(int first, int second, String symbol) throws IOException {
-        int result = 0;
-        switch (symbol) {
-            case "+":
-                result = first + second;
-                break;
-            case "-":
-                result = first - second;
-                break;
-            case "*":
-                result = first * second;
-                break;
-            case "/":
-                while (second == 0) {
-                    System.out.println("0이 아닌 두번째 연산자입력를 다시 입력해주세요:");
-                    second = inputNumber(getInput(br));
-                }
-
-                result = first / second;
-                break;
-        }
-        return result;
-    }
 }
-
