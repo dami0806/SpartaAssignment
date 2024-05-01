@@ -26,7 +26,7 @@ public class Calculator extends AbstractCalculator implements ICalculator {
     @Override
     public void run() throws IOException {
         while (true) {
-            String selectType = readInput("arithmetic / circle 선택하세요").toLowerCase();//readInput().toLowerCase();
+            String selectType = readInput("arithmetic / circle 선택하세요").toLowerCase();
             if (processCalculate(selectType)) {
                 return;
             }
