@@ -12,7 +12,6 @@ import java.util.ArrayList;
 // static 제거: 독립성 고려
 public class Calculator extends AbstractCalculator {
 
-
     public Calculator(BufferedReader br) {
         super(br);
     }
@@ -21,11 +20,12 @@ public class Calculator extends AbstractCalculator {
     public void run() throws IOException {
         while (true) {
             System.out.println("arithmetic / circle 선택하세요");
-            String selectType = br.readLine().toLowerCase();
+            String selectType = getBr().readLine().toLowerCase();
             try {
                 // 입력된 문자열을 변수로
                 CalculationType type = CalculationType.valueOf(selectType.toUpperCase());
-                Calculator instance = type.createInstance(br);
+                Calculator instance = type.createInstance(getBr());
+
                 instance.run();
                 return;
             } catch (IllegalArgumentException | NoSuchMethodException | InvocationTargetException |
@@ -34,7 +34,5 @@ public class Calculator extends AbstractCalculator {
             }
         }
     }
-
-
 }
 

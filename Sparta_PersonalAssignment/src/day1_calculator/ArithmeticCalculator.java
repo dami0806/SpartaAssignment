@@ -6,7 +6,7 @@ import day1_calculator.enumType.OperatorType;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ArithmeticCalculator extends Calculator implements IDetailedCalculator<ArithmeticParams> {
+public class ArithmeticCalculator extends Calculator implements IArithmeticCalculator, IDetailedCalculator<ArithmeticParams> {
     private OperatorType operator;
     private double result = 0;
     private String input;
@@ -21,7 +21,39 @@ public class ArithmeticCalculator extends Calculator implements IDetailedCalcula
         arithmeticCalcuator();
     }
 
-    private void arithmeticCalcuator() throws IOException {
+
+    // Operator 받아오기
+
+    // 예외처리 대신 if문이 제로 디비
+    // 전에서는 더 효율적으로 보임
+    @Override
+    public boolean calculate(ArithmeticParams params) {
+        while (true) {
+            try {
+                double firstNumber = params.getFirstNumber();
+                double secondNumber = params.getSecondNumber();
+
+                result = operator.apply(firstNumber, secondNumber);
+                getResults().add(result);
+
+                System.out.printf(resultStr(params));
+                return true;
+            } catch (ArithmeticException e) {
+                System.out.println(e.getMessage() + "다시 시도해주세요.");
+                params.setSecondNumber(getNumber("두번째 숫자를 다시 입력해주세요:"));
+                params.setOperator(getOperator("연산자도 다시 입력해주세요:"));
+            }
+        }
+    }
+
+    @Override
+    public String resultStr(ArithmeticParams param) {
+        return  String.format("%.2f %s %.2f = %.2f\n", param.getFirstNumber(), operator.getSymbol(), param.getSecondNumber(), result);
+    }
+
+    // imple IArithmetic
+
+    public void arithmeticCalcuator() throws IOException {
         double firstNumber, secondNumber;
         while (true) {
 
@@ -41,14 +73,9 @@ public class ArithmeticCalculator extends Calculator implements IDetailedCalcula
             }
         }
     }
-
-    // 숫자 파싱
-    private double parseNumber(String number) {
-        return Double.parseDouble(number);
-    }
-
+@Override
     // 연산자
-    private OperatorType getOperator(String prompt) {
+    public OperatorType getOperator(String prompt) {
         String operInput;
 
         while (true) {
@@ -62,30 +89,4 @@ public class ArithmeticCalculator extends Calculator implements IDetailedCalcula
             }
         }
     }
-
-    // Operator 받아오기
-
-
-    // 예외처리 대신 if문이 제로 디비
-    // 전에서는 더 효율적으로 보임
-    @Override
-    public boolean calculate(ArithmeticParams params) {
-        while (true) {
-            try {
-                double firstNumber = params.getFirstNumber();
-                double secondNumber = params.getSecondNumber();
-
-                result = operator.apply(firstNumber, secondNumber);
-                results.add(result);
-
-                System.out.printf("%.2f %s %.2f = %.2f\n", firstNumber, operator.getSymbol(), secondNumber, result);
-                return true;
-            } catch (ArithmeticException e) {
-                System.out.println(e.getMessage() + "다시 시도해주세요.");
-                params.setSecondNumber(getNumber("두번째 숫자를 다시 입력해주세요:"));
-                params.setOperator(getOperator("연산자도 다시 입력해주세요:"));
-            }
-        }
-    }
-
 }

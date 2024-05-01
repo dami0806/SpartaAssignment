@@ -4,4 +4,5 @@ import java.io.IOException;
 
 public interface ICalculator {
     void run() throws IOException;
+
 }

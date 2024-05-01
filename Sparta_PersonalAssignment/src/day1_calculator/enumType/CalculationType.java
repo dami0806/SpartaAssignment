@@ -18,7 +18,8 @@ public enum CalculationType {
     CIRCLE(CircleCalculator.class) {
         @Override
         public Calculator createInstance(BufferedReader br) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-            return new CircleCalculator(br);        }
+            return new CircleCalculator(br);
+        }
     };
 
     // 해당 계산기 클래스를 연결

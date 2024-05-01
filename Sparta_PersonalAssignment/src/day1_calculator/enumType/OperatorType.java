@@ -59,6 +59,5 @@ public enum OperatorType {
         throw new IllegalArgumentException("맞는 연산자를 다시 입력하세요 " + symbol);
     }
 
-
     public abstract double apply(double firstNumber, double secondNumber);
 }

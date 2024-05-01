@@ -8,8 +8,24 @@ import java.util.ArrayList;
 // AbstractCalculator: 모든 계산기의 공통적인 기능
 // Calculator: 사용자 입력을 통해 인스턴스 생성 및 로직 실행기능
 public abstract class AbstractCalculator implements ICalculator {
-    protected BufferedReader br;
-    protected ArrayList<Double> results;
+    private BufferedReader br;
+    private ArrayList<Double> results;
+
+    public BufferedReader getBr() {
+        return br;
+    }
+
+    public void setBr(BufferedReader br) {
+        this.br = br;
+    }
+
+    public ArrayList<Double> getResults() {
+        return results;
+    }
+
+    public void setResults(ArrayList<Double> results) {
+        this.results = results;
+    }
 
     public AbstractCalculator(BufferedReader br) {
         this.br = br;

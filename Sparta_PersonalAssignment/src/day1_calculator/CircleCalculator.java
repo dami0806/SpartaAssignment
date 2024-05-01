@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class CircleCalculator extends Calculator implements IDetailedCalculator<CircleParams>{
+public class CircleCalculator extends Calculator implements ICircleCalculator, IDetailedCalculator<CircleParams>{
 
     public CircleCalculator(BufferedReader br) {
         super(br);
@@ -20,7 +20,27 @@ public class CircleCalculator extends Calculator implements IDetailedCalculator<
         circleCalculator();
     }
 
-    private void circleCalculator() throws IOException {
+    @Override
+    public boolean calculate(CircleParams params) {
+        while (true) {
+            double radius;
+            try {
+                radius = params.getRadius();
+                System.out.println(resultStr(params));
+                double result = resultvalue(radius);
+                getResults().add(result);
+
+                System.out.printf("원의 넓이는 %.2f입니다.\n", resultvalue(radius));
+                return true;
+            } catch (ArithmeticException e) {
+                System.out.println(e.getMessage() + " 다시 시도해주세요.");
+            }
+        }
+    }
+
+    // ICircleCalculator
+    @Override
+    public void circleCalculator() throws IOException {
         while (true) {
             double radius;
             radius = getNumber("원의 반지름을 입력하세요: ");
@@ -36,31 +56,15 @@ public class CircleCalculator extends Calculator implements IDetailedCalculator<
         }
     }
 
+
     @Override
-    public boolean calculate(CircleParams params) {
-        while (true) {
-            double radius;
-            try {
-                radius = params.getRadius();
-                System.out.println(resultStr(radius));
-                double result = resultvalue(radius);
-                results.add(result);
-
-                System.out.printf("원의 넓이는 %.2f입니다.\n", resultvalue(radius));
-                return true;
-            } catch (ArithmeticException e) {
-                System.out.println(e.getMessage() + " 다시 시도해주세요.");
-            }
-        }
-    }
-
-    private double resultvalue(double radius) {
+    public double resultvalue(double radius) {
         return radius * radius * Math.PI;
     }
 
-    private String resultStr(double radius) {
-
-        return String.format("%.2f * %.2f * ℔ = %.2f", radius, radius, resultvalue(radius));
+    @Override
+    public String resultStr(CircleParams param) {
+        return String.format("%.2f * %.2f * ℔ = %.2f", param.getRadius(), param.getRadius(), resultvalue(param.getRadius()));
     }
 
 }
