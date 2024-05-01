@@ -3,28 +3,41 @@ package day1_nbCalculator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class App {
     // 입력값을 객체 생성 기다리지 않고 받기
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static ArrayList<Integer> results = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         String symbol;
         int firstNumber, secondNumber, result;
-        System.out.println("첫번째 연산자입력:");
-        firstNumber = inputNumber(getInput(br));
+        while(true) {
+            System.out.println("첫번째 연산자입력:");
+            firstNumber = inputNumber(getInput(br));
 
-        System.out.println("두번째 연산자입력:");
-        secondNumber = inputNumber(getInput(br));
+            System.out.println("두번째 연산자입력:");
+            secondNumber = inputNumber(getInput(br));
 
-        System.out.print("사칙연산 기호를 입력하세요: ");
-        symbol = inputOperator(getInput(br));
+            System.out.print("사칙연산 기호를 입력하세요: ");
+            symbol = inputOperator(getInput(br));
 
-        result = calculatorResult(firstNumber,secondNumber,symbol); // br입력값을 받는 매개변수인데 나중에 선언되어도 되지 않나 왜 얘도 static이여야하는거지
-        System.out.println("결과: " + result);
-
+            result = calculatorResult(firstNumber, secondNumber, symbol);
+            addArr(result);
+            System.out.println("결과: " + result);
+            for (int i : results) {
+                System.out.printf("%d ",i);
+                System.out.println("");
+            }
+        }
     }
-
+private static void addArr(int result) {
+        if (results.size() >= 10) {
+            results.remove(0);
+        }
+    results.add(result);
+    }
     private static String getInput(BufferedReader br) throws IOException {
         return br.readLine();
     }
@@ -39,8 +52,9 @@ public class App {
             }
         }
     }
+
     private static String inputOperator(String input) throws IOException {
-        while(true) {
+        while (true) {
             if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/")) {
                 return input;
             } else {
