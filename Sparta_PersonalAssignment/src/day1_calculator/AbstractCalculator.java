@@ -1,7 +1,5 @@
 package day1_calculator;
 
-import day1_calculator.interfaces.ICalculator;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +7,7 @@ import java.util.ArrayList;
 // readInput,getNumber..등 메서드 위치 추상클래스와 Calculator클래스 중 고민
 // AbstractCalculator: 모든 계산기의 공통적인 기능
 // Calculator: 사용자 입력을 통해 인스턴스 생성 및 로직 실행기능
-public abstract class AbstractCalculator implements ICalculator {
+public abstract class AbstractCalculator implements IAbstracttCalculator {
     private BufferedReader br;
     private ArrayList<Double> results;
 
@@ -25,8 +23,8 @@ public abstract class AbstractCalculator implements ICalculator {
         this.br = br;
         this.results = new ArrayList<>();
     }
-
-    protected String readInput(String promt) {
+@Override
+   public String readInput(String promt) {
         try {
             System.out.println(promt);
             return br.readLine();
@@ -35,7 +33,8 @@ public abstract class AbstractCalculator implements ICalculator {
         }
     }
 
-    protected double getNumber(String prompt) {
+    @Override
+    public double getNumber(String prompt) {
         String number;
         while (true) {
             number = readInput(prompt);
@@ -48,7 +47,8 @@ public abstract class AbstractCalculator implements ICalculator {
     }
 
     // 조회하기
-    protected void inputInquiry(String promt) throws IOException {
+    @Override
+    public void inputInquiry(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
 
@@ -60,7 +60,8 @@ public abstract class AbstractCalculator implements ICalculator {
     }
 
     // 삭제하기
-    protected void inputRemove(String promt) throws IOException {
+    @Override
+    public void inputRemove(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
 
@@ -77,7 +78,8 @@ public abstract class AbstractCalculator implements ICalculator {
     }
 
     // 끝내기
-    protected boolean inputExit(String promt) throws IOException {
+    @Override
+    public boolean inputExit(String promt) throws IOException {
         System.out.println(promt);
         String input = br.readLine();
 
@@ -88,7 +90,8 @@ public abstract class AbstractCalculator implements ICalculator {
     }
 
     // 결과 포멧팅
-    private void formatResults() {
+    @Override
+    public void formatResults() {
         results.forEach(result -> System.out.printf("%.2f\n", result));
     }
 }

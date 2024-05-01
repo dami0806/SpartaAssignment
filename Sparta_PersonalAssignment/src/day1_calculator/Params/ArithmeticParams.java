@@ -7,10 +7,6 @@ public class ArithmeticParams {
     private double firstNumber;
     private double secondNumber;
 
-    public OperatorType getOperator() {
-        return operator;
-    }
-
     public void setOperator(OperatorType operator) {
         this.operator = operator;
     }
