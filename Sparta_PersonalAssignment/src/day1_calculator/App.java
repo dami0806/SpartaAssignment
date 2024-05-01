@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
         - 외부에서 직접 접근할 수 없습니다.
         - Getter, Setter 메서드를 구현합니다.
         - 원의 넓이 결과값들을 조회하는 메서드를 구현합니다.
-
+util class
         Enum
         제네릭스
         람다 & 스트림
@@ -31,6 +31,5 @@ public class App {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Calculator calculator = new Calculator(br);
         calculator.run();
-
     }
 }

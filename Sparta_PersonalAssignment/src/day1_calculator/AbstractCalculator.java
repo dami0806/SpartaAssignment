@@ -9,6 +9,7 @@ import java.util.ArrayList;
 // Calculator: 사용자 입력을 통해 인스턴스 생성 및 로직 실행기능
 public abstract class AbstractCalculator implements IAbstracttCalculator {
     private BufferedReader br;
+
     private ArrayList<Double> results;
 
     public BufferedReader getBr() {
@@ -23,8 +24,9 @@ public abstract class AbstractCalculator implements IAbstracttCalculator {
         this.br = br;
         this.results = new ArrayList<>();
     }
-@Override
-   public String readInput(String promt) {
+
+    @Override
+    public String readInput(String promt) {
         try {
             System.out.println(promt);
             return br.readLine();

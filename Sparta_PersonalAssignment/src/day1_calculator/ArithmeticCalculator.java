@@ -23,7 +23,6 @@ public class ArithmeticCalculator extends Calculator implements IArithmeticCalcu
         arithmeticCalcuator();
     }
 
-
     // Operator 받아오기
 
     // 예외처리 대신 if문이 제로 디비

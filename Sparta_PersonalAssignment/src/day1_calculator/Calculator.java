@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 // static 제거: 독립성 고려
+
+/*
+static 메서드 메모리 <- 스택 사용
+생성자 힙 <- 스택
+ */
 public class Calculator extends AbstractCalculator implements ICalculator {
 
     public Calculator(BufferedReader br) {
