@@ -1,4 +1,4 @@
-package day1_calculator;
+package day1_calculator.interfaces;
 
 import java.io.IOException;
 
