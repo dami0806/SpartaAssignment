@@ -8,7 +8,7 @@ import static day1_nbCalculator.App.br;
 import static day1_nbCalculator.App.getInput;
 
 public abstract class Calculator {
-    static ArrayList<Double> results = new ArrayList<>();
+     ArrayList<Double> results = new ArrayList<>();
 
     public abstract double calculate() throws IOException;
 
@@ -32,7 +32,7 @@ public abstract class Calculator {
 
     public void removeResult() throws IOException {
         System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제)");
-        if (getInput(br).toLowerCase().equals("remove")) {
+        if (getInput(br).equalsIgnoreCase("remove")) {
             if (results.isEmpty()) {
                 System.out.println("결과배열이 비어있습니다.");
             }

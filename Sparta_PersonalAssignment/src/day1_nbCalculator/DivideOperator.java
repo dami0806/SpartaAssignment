@@ -8,9 +8,4 @@ public class DivideOperator implements Operator {
         }
         return firstNumber / secondNumber;
     }
-
-    @Override
-    public String getSymbol() {
-        return "/";
-    }
 }

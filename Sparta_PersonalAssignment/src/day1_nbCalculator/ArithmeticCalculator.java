@@ -22,10 +22,6 @@ public class ArithmeticCalculator extends Calculator {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
     public double getFirstNumber() {
         return firstNumber;
     }
@@ -40,35 +36,6 @@ public class ArithmeticCalculator extends Calculator {
 
     public void setSecondNumber(double secondNumber) {
         this.secondNumber = secondNumber;
-    }
-
-    public double getResult() {
-        return result;
-    }
-
-    public void setResult(double result) {
-        this.result = result;
-    }
-
-
-    // 연산 메서드
-    private double add(double first, double second) {
-        return first + second;
-    }
-
-    private double subtract(double first, double second) {
-        return first - second;
-    }
-
-    private double multiply(double first, double second) {
-        return first * second;
-    }
-
-    private double divide(double first, double second) {
-        if (second == 0) {
-            throw new IllegalArgumentException("0으로 나눌 수 없습니다.");
-        }
-        return first / second;
     }
 
     @Override
