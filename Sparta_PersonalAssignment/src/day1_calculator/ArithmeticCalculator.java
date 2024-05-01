@@ -2,6 +2,8 @@ package day1_calculator;
 
 import day1_calculator.Params.ArithmeticParams;
 import day1_calculator.enumType.OperatorType;
+import day1_calculator.interfaces.IArithmeticCalculator;
+import day1_calculator.interfaces.IDetailedCalculator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

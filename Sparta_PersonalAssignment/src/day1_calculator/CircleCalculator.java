@@ -1,14 +1,13 @@
 package day1_calculator;
 
-import day1_calculator.Params.ArithmeticParams;
 import day1_calculator.Params.CircleParams;
+import day1_calculator.interfaces.ICircleCalculator;
+import day1_calculator.interfaces.IDetailedCalculator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 
-public class CircleCalculator extends Calculator implements ICircleCalculator, IDetailedCalculator<CircleParams>{
+public class CircleCalculator extends Calculator implements ICircleCalculator, IDetailedCalculator<CircleParams> {
 
     public CircleCalculator(BufferedReader br) {
         super(br);

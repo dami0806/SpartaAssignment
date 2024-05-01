@@ -1,5 +1,7 @@
 package day1_calculator;
 
+import day1_calculator.interfaces.ICalculator;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +13,14 @@ public abstract class AbstractCalculator implements ICalculator {
     private BufferedReader br;
     private ArrayList<Double> results;
 
-    public BufferedReader getBr() {
-        return br;
-    }
+
 
     public void setBr(BufferedReader br) {
         this.br = br;
+    }
+
+    public BufferedReader getBr() {
+        return br;
     }
 
     public ArrayList<Double> getResults() {

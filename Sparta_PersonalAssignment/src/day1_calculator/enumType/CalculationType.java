@@ -25,9 +25,6 @@ public enum CalculationType {
     // 해당 계산기 클래스를 연결
     private final Class<? extends Calculator> calculatorClass;
 
-    public Class<? extends Calculator> getCalculatorClass() {
-        return calculatorClass;
-    }
 
     CalculationType(Class<? extends Calculator> calculatorClass) {
         this.calculatorClass = calculatorClass;

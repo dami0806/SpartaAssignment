@@ -35,9 +35,5 @@ public class ArithmeticParams {
         this.operator = operator;
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
-
-
     }
-
-
 }
