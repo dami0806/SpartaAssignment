@@ -28,11 +28,11 @@ public class App {
 
             result = calculator.calculate(firstNumber, secondNumber, symbol);
 
-            app.addArr(result);
+            calculator.addArr(result);
             System.out.println("결과: " + result);
 
-            app.removeArr();
-            app.inquiry();
+            calculator.removeArr();
+            calculator.inquiry();
 
             System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
             if (getInput(br).toLowerCase().equals("exit")) {
@@ -41,30 +41,7 @@ public class App {
         }
     }
 
-    private void inquiry() {
-        System.out.println("저장된 연산결과를 조회하시겠습니까? (inquiry 입력 시 조회)");
-
-        for (int i : results) {
-            System.out.printf("%d ", i);
-            System.out.println("");
-        }
-    }
-
-    private void addArr(int result) {
-        results.add(result);
-    }
-
-    private void removeArr() throws IOException {
-        System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제)");
-        if (getInput(br).toLowerCase().equals("remove")) {
-            if (results.isEmpty()) {
-                System.out.println("결과배열이 비어있습니다.");
-            }
-            results.remove(0);
-        }
-    }
-
-    private static String getInput(BufferedReader br) throws IOException {
+    static String getInput(BufferedReader br) throws IOException {
         return br.readLine();
     }
 
@@ -89,29 +66,4 @@ public class App {
             }
         }
     }
-
-//    private int calculatorResult(int first, int second, String symbol) throws IOException {
-//        int result = 0;
-//        switch (symbol) {
-//            case "+":
-//                calculator. result = first + second;
-//                break;
-//            case "-":
-//                result = first - second;
-//                break;
-//            case "*":
-//                result = first * second;
-//                break;
-//            case "/":
-//                while (second == 0) {
-//                    System.out.println("0이 아닌 두번째 연산자입력를 다시 입력해주세요:");
-//                    second = inputNumber(getInput(br));
-//                }
-//
-//                result = first / second;
-//                break;
-//        }
-//        return result;
-//    }
 }
-
