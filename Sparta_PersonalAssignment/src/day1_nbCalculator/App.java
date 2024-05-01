@@ -8,41 +8,67 @@ import java.util.ArrayList;
 public class App {
     // 입력값을 객체 생성 기다리지 않고 받기
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static ArrayList<Integer> results = new ArrayList<>();
+    ArrayList<Integer> results = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+        App app = new App();
+
         String symbol;
         int firstNumber, secondNumber, result;
-        while(true) {
+        while (true) {
             System.out.println("첫번째 연산자입력:");
-            firstNumber = inputNumber(getInput(br));
+            firstNumber = app.inputNumber(getInput(br));
 
             System.out.println("두번째 연산자입력:");
-            secondNumber = inputNumber(getInput(br));
+            secondNumber = app.inputNumber(getInput(br));
 
             System.out.print("사칙연산 기호를 입력하세요: ");
-            symbol = inputOperator(getInput(br));
+            symbol = app.inputOperator(getInput(br));
 
-            result = calculatorResult(firstNumber, secondNumber, symbol);
-            addArr(result);
+            result = app.calculatorResult(firstNumber, secondNumber, symbol);
+
+            app.addArr(result);
+
             System.out.println("결과: " + result);
-            for (int i : results) {
-                System.out.printf("%d ",i);
-                System.out.println("");
+            app.addArr(result);
+            app.removeArr();
+            app.inquiry();
+
+            System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
+            if (getInput(br).toLowerCase().equals("exit")) {
+                break;
             }
         }
     }
-private static void addArr(int result) {
-        if (results.size() >= 10) {
+
+    private void inquiry() {
+        System.out.println("저장된 연산결과를 조회하시겠습니까? (inquiry 입력 시 조회)");
+
+        for (int i : results) {
+            System.out.printf("%d ", i);
+            System.out.println("");
+        }
+    }
+
+    private void addArr(int result) {
+        results.add(result);
+    }
+
+    private void removeArr() throws IOException {
+        System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제)");
+        if (getInput(br).toLowerCase().equals("remove")) {
+            if (results.isEmpty()) {
+                System.out.println("결과배열이 비어있습니다.");
+            }
             results.remove(0);
         }
-    results.add(result);
     }
+
     private static String getInput(BufferedReader br) throws IOException {
         return br.readLine();
     }
 
-    private static int inputNumber(String input) throws IOException {
+    private int inputNumber(String input) throws IOException {
         while (true) {
             try {
                 return Integer.parseInt(input);
@@ -53,7 +79,7 @@ private static void addArr(int result) {
         }
     }
 
-    private static String inputOperator(String input) throws IOException {
+    private String inputOperator(String input) throws IOException {
         while (true) {
             if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/")) {
                 return input;
@@ -64,7 +90,7 @@ private static void addArr(int result) {
         }
     }
 
-    private static int calculatorResult(int first, int second, String symbol) throws IOException {
+    private int calculatorResult(int first, int second, String symbol) throws IOException {
         int result = 0;
         switch (symbol) {
             case "+":
