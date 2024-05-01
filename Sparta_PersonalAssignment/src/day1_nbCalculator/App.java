@@ -11,6 +11,7 @@ public class App {
     ArrayList<Integer> results = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+        Calculator calculator = new Calculator();
         App app = new App();
 
         String symbol;
@@ -25,12 +26,11 @@ public class App {
             System.out.print("사칙연산 기호를 입력하세요: ");
             symbol = app.inputOperator(getInput(br));
 
-            result = app.calculatorResult(firstNumber, secondNumber, symbol);
+            result = calculator.calculate(firstNumber, secondNumber, symbol);
 
             app.addArr(result);
-
             System.out.println("결과: " + result);
-            app.addArr(result);
+
             app.removeArr();
             app.inquiry();
 
@@ -90,28 +90,28 @@ public class App {
         }
     }
 
-    private int calculatorResult(int first, int second, String symbol) throws IOException {
-        int result = 0;
-        switch (symbol) {
-            case "+":
-                result = first + second;
-                break;
-            case "-":
-                result = first - second;
-                break;
-            case "*":
-                result = first * second;
-                break;
-            case "/":
-                while (second == 0) {
-                    System.out.println("0이 아닌 두번째 연산자입력를 다시 입력해주세요:");
-                    second = inputNumber(getInput(br));
-                }
-
-                result = first / second;
-                break;
-        }
-        return result;
-    }
+//    private int calculatorResult(int first, int second, String symbol) throws IOException {
+//        int result = 0;
+//        switch (symbol) {
+//            case "+":
+//                calculator. result = first + second;
+//                break;
+//            case "-":
+//                result = first - second;
+//                break;
+//            case "*":
+//                result = first * second;
+//                break;
+//            case "/":
+//                while (second == 0) {
+//                    System.out.println("0이 아닌 두번째 연산자입력를 다시 입력해주세요:");
+//                    second = inputNumber(getInput(br));
+//                }
+//
+//                result = first / second;
+//                break;
+//        }
+//        return result;
+//    }
 }
 
