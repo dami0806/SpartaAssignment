@@ -9,27 +9,28 @@ import static day1_nbCalculator.App.getInput;
 public class ArithmeticCalculator extends Calculator {
     //    private String symbol;
     private OperatorType operatorType;
-    private double firstNumber, secondNumber, result;
+    private Number firstNumber, secondNumber;
+    private double result;
 
-    public ArithmeticCalculator(String symbol, double firstNumber, double secondNumber) {
+    public ArithmeticCalculator(String symbol, Number firstNumber, Number secondNumber) {
         this.operatorType = OperatorType.getFromOperator(symbol);
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
     }
 
-    public double getFirstNumber() {
+    public Number getFirstNumber() {
         return firstNumber;
     }
 
-    public void setFirstNumber(double firstNumber) {
+    public void setFirstNumber(Number firstNumber) {
         this.firstNumber = firstNumber;
     }
 
-    public double getSecondNumber() {
+    public Number getSecondNumber() {
         return secondNumber;
     }
 
-    public void setSecondNumber(double secondNumber) {
+    public void setSecondNumber(Number secondNumber) {
         this.secondNumber = secondNumber;
     }
 
@@ -37,14 +38,14 @@ public class ArithmeticCalculator extends Calculator {
     public double calculate() throws IOException {
         if ((operatorType == OperatorType.DIVIDE ||
                 operatorType == OperatorType.MODULO) &&
-                secondNumber == 0) {
+                secondNumber.doubleValue() == 0.0) {
 
-            while (this.secondNumber == 0) {
+            while (this.secondNumber.doubleValue() == 0.0) {
                 System.out.println("0이 아닌 두번째 숫자 입력를 다시 입력해주세요:");
                 secondNumber = Double.parseDouble(getInput(br));
             }
         }
-        result = operatorType.apply(firstNumber, secondNumber);
+        result = operatorType.apply(firstNumber, secondNumber).doubleValue();
         addArr(result);
         return result;
     }

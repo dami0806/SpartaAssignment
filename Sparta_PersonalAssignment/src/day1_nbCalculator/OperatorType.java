@@ -3,43 +3,39 @@ package day1_nbCalculator;
 public enum OperatorType {
     ADD("+") {
         @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber + secondNumber;
+        public Number apply(Number firstNumber, Number secondNumber) {
+            // Number 타입을 적절하게 처리하기 위한 예제 로직
+            return firstNumber.doubleValue() + secondNumber.doubleValue();
         }
     },
-
     SUBTRACT("-") {
         @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber - secondNumber;
+        public Number apply(Number firstNumber, Number secondNumber) {
+            return firstNumber.doubleValue() - secondNumber.doubleValue();
         }
     },
-
     MULTIPLY("*") {
         @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber * secondNumber;
+        public Number apply(Number firstNumber, Number secondNumber) {
+            return firstNumber.doubleValue() * secondNumber.doubleValue();
         }
     },
-
-
     DIVIDE("/") {
         @Override
-        public double apply(double firstNumber, double secondNumber) {
-            if (secondNumber == 0) {
-                throw new ArithmeticException("0으로 나눌 수 없습니다");
+        public Number apply(Number firstNumber, Number secondNumber) {
+            if (secondNumber.doubleValue() == 0) {
+                throw new ArithmeticException("0으로 나눌 수 없습니다.");
             }
-            return firstNumber / secondNumber;
+            return firstNumber.doubleValue() / secondNumber.doubleValue();
         }
     },
-
     MODULO("%") {
         @Override
-        public double apply(double firstNumber, double secondNumber) {
-            if (secondNumber == 0) {
+        public Number apply(Number firstNumber, Number secondNumber) {
+            if (secondNumber.doubleValue() == 0) {
                 throw new ArithmeticException("0으로 나눌수 없습니다.");
             }
-            return firstNumber % secondNumber;
+            return firstNumber.doubleValue() % secondNumber.doubleValue();
         }
     };
 
@@ -65,6 +61,5 @@ public enum OperatorType {
         throw new IllegalArgumentException("올바른 연산자가 아닙니다");
     }
 
-    public abstract double apply(double firstNumber, double secondNumber);
-
+    public abstract Number apply(Number firstNumber, Number secondNumber);
 }
