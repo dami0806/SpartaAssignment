@@ -1,7 +1,7 @@
 # Sparta_Assignment
 ### Level 1,2: day1_nbCalculator파일로 확인해주세요
 
-### Level 3 외 리펙토링:  day1_calculator파일로 확인해주세요
+### Level 3 외 리펙토링:  day1_calculator파일로 확인해주세요 (처음 잘못이해하고 이렇게 먼저 제출해서 day1_nbCalculator파일에서 3 수정중입니다 5.2일내로 완료할예정..!!)
 
 ---
 ### Level 1,2: day1_nbCalculator파일 : 클래스와 인터페이스 간의 관계, 메서드 다이어그램
