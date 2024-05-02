@@ -41,7 +41,8 @@ public enum OperatorType {
         // return 상수
         throw new IllegalArgumentException("올바른 연산자가 아닙니다");
     }
+
     public double apply(Number firstNumber, Number secondNumber) {
-        return operation.apply(firstNumber,secondNumber);
+        return operation.apply(firstNumber, secondNumber);
     }
 }
