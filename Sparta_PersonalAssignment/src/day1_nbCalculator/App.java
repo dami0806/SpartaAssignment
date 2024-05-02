@@ -110,7 +110,7 @@ public class App {
 
     private String inputOperator(String input) throws IOException {
         while (true) {
-            if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/")) {
+            if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/") || input.equals("%")) {
                 return input;
             } else {
                 System.out.println("잘못된 연산자입니다. 다시 입력해주세요.");

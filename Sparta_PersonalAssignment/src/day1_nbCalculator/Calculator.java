@@ -8,7 +8,7 @@ import static day1_nbCalculator.App.br;
 import static day1_nbCalculator.App.getInput;
 
 public abstract class Calculator {
-     ArrayList<Double> results = new ArrayList<>();
+     static ArrayList<Double> results = new ArrayList<>();
 
     public abstract double calculate() throws IOException;
 
