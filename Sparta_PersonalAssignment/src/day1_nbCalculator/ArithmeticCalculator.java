@@ -45,8 +45,9 @@ public class ArithmeticCalculator extends Calculator {
                 secondNumber = Double.parseDouble(getInput(br));
             }
         }
-        result = operatorType.apply(firstNumber, secondNumber).doubleValue();
+        result = operatorType.apply(firstNumber, secondNumber);
         addArr(result);
         return result;
     }
+
 }
