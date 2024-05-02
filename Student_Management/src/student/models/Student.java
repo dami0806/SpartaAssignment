@@ -5,24 +5,16 @@ import course.models.Course;
 import java.util.List;
 
 /**
- * state(상태), courses(수강목록)
+ * state(상태), courses(수강목록) 필수, 선택 분리해서
  */
 public class Student extends Person {
     private String state;
-    private List<Course> courseList;
+    private List<Course> CourseEnrollment;
 
-    public Student(int id, String name, String state, List<Course> courseList) {
+    public Student(int id, String name, String state, List<Course> courseEnrollment) {
         super(id, name);
         this.state = state;
-        this.courseList = courseList;
-    }
-
-    public List<Course> getCourseList() {
-        return courseList;
-    }
-
-    public void setCourseList(List<Course> courseList) {
-        this.courseList = courseList;
+        CourseEnrollment = courseEnrollment;
     }
 
     public String getState() {
@@ -31,5 +23,13 @@ public class Student extends Person {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Course> getCourseEnrollment() {
+        return CourseEnrollment;
+    }
+
+    public void setCourseEnrollment(List<Course> courseEnrollment) {
+        CourseEnrollment = courseEnrollment;
     }
 }

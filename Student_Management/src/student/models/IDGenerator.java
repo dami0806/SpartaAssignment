@@ -17,5 +17,4 @@ public class IDGenerator {
     public synchronized int generateId(){ //getCurrentId() {
         return currentId++;
     }
-
 }
