@@ -25,13 +25,13 @@
 
   --- 
 # 사용된 기술 개념
-### 1. [Level 1](https://github.com/dami0806/Sparta_Assignment/wiki#level-1)
-  - [Static](https://github.com/dami0806/Sparta_Assignment/wiki#static)
+### [1. Level 1](https://github.com/dami0806/Sparta_Assignment/wiki#level-1)
+  [- Static](https://github.com/dami0806/Sparta_Assignment/wiki#static)
 
-### 2. [Level 2](https://github.com/dami0806/Sparta_Assignment/wiki#level-2)
- - [접근제한자 private 사용](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C%EC%9E%90-private-%EC%82%AC%EC%9A%A9)
+### [2. Level 2](https://github.com/dami0806/Sparta_Assignment/wiki#level-2)
+ [- 접근제한자 private 사용](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C%EC%9E%90-private-%EC%82%AC%EC%9A%A9)
    
-### 3. [Level 3](https://github.com/dami0806/Sparta_Assignment/wiki#level-3)
+### [3. Level 3](https://github.com/dami0806/Sparta_Assignment/wiki#level-3)
  - [1. Enum](https://github.com/dami0806/Sparta_Assignment/wiki#1-enum)
  - [2. 제네릭스와 BiFunction 인터페이스](https://github.com/dami0806/Sparta_Assignment/wiki#2-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%8A%A4%EC%99%80-bifunction-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4)
  - [3. 람다와 스트림](https://github.com/dami0806/Sparta_Assignment/wiki#3-%EB%9E%8C%EB%8B%A4%EC%99%80-%EC%8A%A4%ED%8A%B8%EB%A6%BC)
