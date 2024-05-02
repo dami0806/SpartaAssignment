@@ -1,52 +1,29 @@
 package day1_nbCalculator;
 
+import java.util.function.BiFunction;
+
 public enum OperatorType {
-    ADD("+") {
-        @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber + secondNumber;
-        }
-    },
+    ADD("+", (first, second) -> first.doubleValue() + second.doubleValue()),
+    SUBTRACT("-", (first, second) -> first.doubleValue() - second.doubleValue()),
 
-    SUBTRACT("-") {
-        @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber - secondNumber;
-        }
-    },
-
-    MULTIPLY("*") {
-        @Override
-        public double apply(double firstNumber, double secondNumber) {
-            return firstNumber * secondNumber;
-        }
-    },
-
-
-    DIVIDE("/") {
-        @Override
-        public double apply(double firstNumber, double secondNumber) {
-            if (secondNumber == 0) {
-                throw new ArithmeticException("0으로 나눌 수 없습니다");
-            }
-            return firstNumber / secondNumber;
-        }
-    },
-
-    MODULO("%") {
-        @Override
-        public double apply(double firstNumber, double secondNumber) {
-            if (secondNumber == 0) {
-                throw new ArithmeticException("0으로 나눌수 없습니다.");
-            }
-            return firstNumber % secondNumber;
-        }
-    };
+    MULTIPLY("*", (first, second) -> first.doubleValue() * second.doubleValue()),
+    DIVIDE("/", (first, second) -> {
+        if (second.doubleValue() == 0) throw new ArithmeticException("0으로 나눌 수 없습니다.");
+        return first.doubleValue() / second.doubleValue();
+    }),
+    MODULO("%", (first, second) -> {
+        if (second.doubleValue() == 0) throw new ArithmeticException("0으로 나눌 수 없습니다.");
+        return first.doubleValue() % second.doubleValue();
+    });
 
     private final String operator;
+    // private final double operation; -> 람다에서 변한 계산으로
+    // ADD("+") {apply함수 -> return double이였음}
+    BiFunction<Number, Number, Double> operation;
 
-    OperatorType(String operator) {
+    OperatorType(String operator, BiFunction<Number, Number, Double> operation) {
         this.operator = operator;
+        this.operation = operation;
     }
 
     public String getOperator() {
@@ -64,7 +41,7 @@ public enum OperatorType {
         // return 상수
         throw new IllegalArgumentException("올바른 연산자가 아닙니다");
     }
-
-    public abstract double apply(double firstNumber, double secondNumber);
-
+    public double apply(Number firstNumber, Number secondNumber) {
+        return operation.apply(firstNumber,secondNumber);
+    }
 }
