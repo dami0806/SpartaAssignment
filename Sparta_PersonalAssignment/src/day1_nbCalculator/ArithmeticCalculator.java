@@ -7,19 +7,14 @@ import static day1_nbCalculator.App.br;
 import static day1_nbCalculator.App.getInput;
 
 public class ArithmeticCalculator extends Calculator {
-    private String symbol;
-    private Operator operator;
+    //    private String symbol;
+    private OperatorType operatorType;
     private double firstNumber, secondNumber, result;
 
     public ArithmeticCalculator(String symbol, double firstNumber, double secondNumber) {
-        this.symbol = symbol;
+        this.operatorType = OperatorType.getFromOperator(symbol);
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
-    }
-
-    // getter setter
-    public String getSymbol() {
-        return symbol;
     }
 
     public double getFirstNumber() {
@@ -40,40 +35,16 @@ public class ArithmeticCalculator extends Calculator {
 
     @Override
     public double calculate() throws IOException {
+        if ((operatorType == OperatorType.DIVIDE ||
+                operatorType == OperatorType.MODULO) &&
+                secondNumber == 0) {
 
-//        double result = 0;
-        switch (this.symbol) {
-            case "+":
-                operator = new AddOperator();
-                break;
-
-            case "-":
-                operator = new SubtractOperator();
-                break;
-
-            case "*":
-                operator = new MultiplyOperator();
-                break;
-
-            case "/":
-                while (this.secondNumber == 0) {
-                    System.out.println("0이 아닌 두번째 숫자 입력를 다시 입력해주세요:");
-                    this.secondNumber = Double.parseDouble(getInput(br));
-                }
-                operator = new DivideOperator();
-            break;
-            case "%":
-                while (this.secondNumber == 0) {
-                    System.out.println("0이 아닌 두번째 숫자 입력를 다시 입력해주세요:");
-                    this.secondNumber = Double.parseDouble(getInput(br));
-                }
-                operator = new ModOperator();
-                break;
-
-            default:
-                throw new IllegalArgumentException("유효하지 않은 연산자입니다.");
+            while (this.secondNumber == 0) {
+                System.out.println("0이 아닌 두번째 숫자 입력를 다시 입력해주세요:");
+                secondNumber = Double.parseDouble(getInput(br));
+            }
         }
-        result = operator.operator(firstNumber,secondNumber);
+        result = operatorType.apply(firstNumber, secondNumber);
         addArr(result);
         return result;
     }

@@ -1,6 +1,5 @@
-package day1_calculator.enumType;
+package day1_nbCalculator;
 
-//패키지 이동 => 추상메서드 public 변환
 public enum OperatorType {
     ADD("+") {
         @Override
@@ -8,56 +7,64 @@ public enum OperatorType {
             return firstNumber + secondNumber;
         }
     },
+
     SUBTRACT("-") {
         @Override
         public double apply(double firstNumber, double secondNumber) {
             return firstNumber - secondNumber;
         }
     },
+
     MULTIPLY("*") {
         @Override
         public double apply(double firstNumber, double secondNumber) {
             return firstNumber * secondNumber;
         }
     },
+
+
     DIVIDE("/") {
         @Override
         public double apply(double firstNumber, double secondNumber) {
             if (secondNumber == 0) {
-                throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                throw new ArithmeticException("0으로 나눌 수 없습니다");
             }
             return firstNumber / secondNumber;
         }
     },
+
     MODULO("%") {
         @Override
         public double apply(double firstNumber, double secondNumber) {
             if (secondNumber == 0) {
-                throw new ArithmeticException("0으로 나눌 수 없습니다.");
+                throw new ArithmeticException("0으로 나눌수 없습니다.");
             }
             return firstNumber % secondNumber;
         }
     };
 
-    private final String symbol;
+    private final String operator;
 
-    OperatorType(String symbol) {
-        this.symbol = symbol;
+    OperatorType(String operator) {
+        this.operator = operator;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getOperator() {
+        return operator;
     }
 
-    // 문자열 -> 기호
-    public static OperatorType getFromOperator(String symbol) {
-        for (OperatorType operatorType : OperatorType.values()) {
-            if (operatorType.getSymbol().equals(symbol)) {
+    // static으로, arithmetic에서 enum사용할때 기호로 접근
+    public static OperatorType getFromOperator(String operatorSymbol) {
+        // 변수
+        for (OperatorType operatorType : values()) {
+            if (operatorType.getOperator().equals(operatorSymbol)) {
                 return operatorType;
             }
         }
-        throw new IllegalArgumentException("맞는 연산자를 다시 입력하세요 " + symbol);
+        // return 상수
+        throw new IllegalArgumentException("올바른 연산자가 아닙니다");
     }
 
     public abstract double apply(double firstNumber, double secondNumber);
+
 }

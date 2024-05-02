@@ -83,7 +83,7 @@ public class ArithmeticCalculator extends Calculator implements IArithmeticCalcu
         while (true) {
             operInput = readInput(prompt);
             try {
-                return OperatorType.getFromSymbol(operInput);
+                return OperatorType.getFromOperator(operInput);
 
             } catch (IllegalArgumentException e) {
                 System.out.println("올바른 연산자를 입력해주세요 (+, -, *, /, %):");
