@@ -20,7 +20,6 @@ import static course.models.CourseData.getCourseList;
 //과목id -
 //과목별 점수 입력하기
 
-
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -42,8 +41,11 @@ public class Main {
 
         System.out.println("\n학생 정보:");
         System.out.printf("ID: %d, 이름: %s\n", student.getId(), student.getName());
+
         handleScores(br, student);
-//        displayStudentCourses(student);
+
+        handleUpdateScores(br, student);
+
 
     }
 
@@ -126,9 +128,17 @@ public class Main {
 
                     }
                 }
-
             }
+            displayScores(student);
         }
+    }
+
+    /**
+     * 과목별 섹션별 점수 출력표 >> 과목만 출력, 섹션별 출력으로도 나누기
+     *
+     * @param student
+     */
+    private static void displayScores(Student student) {
         System.out.println("등록된 모든 과목의 점수:");
         for (CourseEnrollment enrollment : student.getCourses().values()) {
             System.out.println("과목: " + enrollment.getCourse().getCourseName() + "의 점수");
@@ -138,5 +148,43 @@ public class Main {
                 System.out.printf(" 회차 %d: 점수 %s\n", session, scoreOutput);
             }
         }
+    }
+
+    //과목별 점수 수정하기
+    private static void handleUpdateScores(BufferedReader br, Student student) throws IOException {
+        System.out.println("점수를 수정할 과목의 ID를 입력하세요:");
+        String courseId = br.readLine().trim();
+
+        CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
+        if (courseEnrollment == null) {
+            System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
+            return;
+        }
+        System.out.println("수정할 회차를 입력하세요:");
+        int session = Integer.parseInt(br.readLine().trim());
+        if (session < 1 || session > 3) {
+            System.out.println("유효한 섹션 범위를 지정해주세요(1-3)");
+            return;
+        }
+        System.out.println("새로운 점수를 입력하세요:");
+        int newScore;
+        try {
+            newScore = Integer.parseInt(br.readLine());
+            if (newScore < 0 || newScore > 100) {
+                System.out.println("유효한 점수를 입력하세요.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("유효한 숫자를 입력하세요.");
+            return;
+        }
+        try {
+            courseEnrollment.updateScore(session, newScore);
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        displayScores(student);
+
     }
 }

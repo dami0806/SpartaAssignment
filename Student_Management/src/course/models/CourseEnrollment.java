@@ -1,7 +1,10 @@
 package course.models;
 
 import Score.models.Score;
+import student.models.Student;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.AnnotatedType;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +34,6 @@ public class CourseEnrollment {
         this.scoresBySession = scoresBySession;
     }
 
-
     // 점수 추가
     public void addScore(int session, int score) throws Exception {
         // 점수 정의
@@ -46,14 +48,22 @@ public class CourseEnrollment {
             throw new Exception("유효한 점수를 지정해주세요(0-100)");
         }
         scoresBySession.put(session, new Score(score, "A"));
-        //추가를 하기
-
     }
 
     // 점수 수정
     public void updateScore(int session, int score) throws Exception {
         if (scoresBySession == null) {
-            throw new Exception("score doesn't exist");
+            throw new Exception("점수가 등록되어있지 않습니다");
         }
+        String CourseId = course.getCourseId();
+
+        int ses = session;
+
+        if (score < 0 || score > 100) {
+            throw new Exception("유효한 점수를 지정해주세요(0-100)");
+        }
+        int score_ = score;
+
+        scoresBySession.put(session, new Score(score, "A"));
     }
 }
