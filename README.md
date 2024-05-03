@@ -1,4 +1,4 @@
-# Sparta_Assignment
+# SpartaAssignment
 ### Level 1,2,3: day1_nbCalculator파일로 확인해주세요
 ---
 ## 학습목표
@@ -38,10 +38,21 @@
 - [2. 제네릭스와 BiFunction](https://github.com/dami0806/Sparta_Assignment/wiki#2-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%8A%A4%EC%99%80-bifunction-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4)
 - [3. 람다와 스트림](https://github.com/dami0806/Sparta_Assignment/wiki#3-%EB%9E%8C%EB%8B%A4%EC%99%80-%EC%8A%A4%ED%8A%B8%EB%A6%BC)
 
-**[3-1. 멀티스레딩 환경에서의 람다 표현식의 안전성](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%82%AC%EC%9A%A9-%EC%83%81%ED%99%A9-%EC%A0%95%EB%A6%AC)**  
-**[3-2. static VS 람다](https://github.com/dami0806/Sparta_Assignment/wiki#static-vs-%EB%9E%8C%EB%8B%A4)**  
+  - [3-1. 멀티스레딩 환경에서의 람다 표현식의 안전성](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%82%AC%EC%9A%A9-%EC%83%81%ED%99%A9-%EC%A0%95%EB%A6%AC)
 
-**[3-2.1 차이 비교 정리](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%B0%A8%EC%9D%B4-%EB%B9%84%EA%B5%90-%EC%A0%95%EB%A6%AC)**  
+  - [3-2. static VS 람다](https://github.com/dami0806/Sparta_Assignment/wiki#static-vs-%EB%9E%8C%EB%8B%A4)
 
-**[3-2.2 사용 상황 정리](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%82%AC%EC%9A%A9-%EC%83%81%ED%99%A9-%EC%A0%95%EB%A6%AC)**
+    - [3-2.1 차이 비교 정리](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%B0%A8%EC%9D%B4-%EB%B9%84%EA%B5%90-%EC%A0%95%EB%A6%AC)
 
+    - [3-2.2 사용 상황 정리](https://github.com/dami0806/Sparta_Assignment/wiki#%EC%82%AC%EC%9A%A9-%EC%83%81%ED%99%A9-%EC%A0%95%EB%A6%AC)
+
+
+# [피드백](https://github.com/dami0806/SpartaAssignment/wiki#%ED%94%BC%EB%93%9C%EB%B0%B1)
+
+- [1. camelCase VS snake_case](https://github.com/dami0806/SpartaAssignment/wiki#1-camelcase-vs-snake_case)
+
+  - [java는 일반적으로 camelCase 스타일을 사용해서 클래스명, 메서드명, 변수명을 짓는다.](https://github.com/dami0806/SpartaAssignment/wiki#java%EB%8A%94-%EC%9D%BC%EB%B0%98%EC%A0%81%EC%9C%BC%EB%A1%9C-camelcase-%EC%8A%A4%ED%83%80%EC%9D%BC%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%AA%85-%EB%A9%94%EC%84%9C%EB%93%9C%EB%AA%85-%EB%B3%80%EC%88%98%EB%AA%85%EC%9D%84-%EC%A7%93%EB%8A%94%EB%8B%A4)
+    
+- [2. 문자열 비교 equal 와 NullPointerException](https://github.com/dami0806/SpartaAssignment/wiki#2-%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%B9%84%EA%B5%90-equal-%EC%99%80-nullpointerexception)
+  
+  - [NPE 방지하고 equal 사용방법](https://github.com/dami0806/SpartaAssignment/wiki#npe-%EB%B0%A9%EC%A7%80%ED%95%98%EA%B3%A0-equal-%EC%82%AC%EC%9A%A9%EB%B0%A9%EB%B2%95)
