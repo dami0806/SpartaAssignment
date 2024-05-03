@@ -13,7 +13,13 @@ public class Student extends Person {
     private String state;
     private Map<String, CourseEnrollment> courses;
 
-    public Student(int id, String name) {
+    public Student(int id, String name, String state, Map<String, CourseEnrollment> courses) {
         super(id, name);
+        this.state = state;
+        this.courses = courses;
+    }
+
+    public void addCourse(String courseId, CourseEnrollment courseEnrollment) {
+        courses.put(courseId, courseEnrollment);
     }
 }
