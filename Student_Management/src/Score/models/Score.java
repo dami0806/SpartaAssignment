@@ -1,6 +1,6 @@
 package Score.models;
 
-//점수,등급
+// 점수,등급
 public class Score {
     private int score;
     private String grade;
