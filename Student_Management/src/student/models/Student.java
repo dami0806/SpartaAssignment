@@ -3,6 +3,7 @@ package student.models;
 import course.models.Course;
 import course.models.CourseEnrollment;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,29 @@ public class Student extends Person {
         this.courses = courses;
     }
 
-    public void addCourse(String courseId, CourseEnrollment courseEnrollment) {
-        courses.put(courseId, courseEnrollment);
+
+
+    public void addCourses(List<Course> coursesToAdd) {
+        for (Course course : coursesToAdd) {
+            CourseEnrollment enrollment = new CourseEnrollment(course, new HashMap<>());
+            this.courses.put(course.getCourseId(), enrollment);
+        }
+    }
+
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Map<String, CourseEnrollment> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Map<String, CourseEnrollment> courses) {
+        this.courses = courses;
     }
 }

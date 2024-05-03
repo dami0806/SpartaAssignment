@@ -1,3 +1,4 @@
+import Score.models.Score;
 import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
@@ -14,128 +15,128 @@ import java.util.stream.Collectors;
 import static course.models.CourseData.createCourseList;
 import static course.models.CourseData.getCourseList;
 
+// 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
+// 과목 선택하기
+//과목id -
+//과목별 점수 입력하기
+
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        // 학생 고유번호 생성
-        int studentId = IDGenerator.getInstance().generateId();
-
-        // 1. 학생 이름 등록
         System.out.print("학생 이름을 입력하세요: ");
         String name = br.readLine();
+        int studentId = IDGenerator.getInstance().generateId();
 
-
-        // 2. 과목 선택
         CourseData.createCourseList();
         List<Course> allCourses = CourseData.getCourseList();
-        // 필수 과목만 필터링
-        List<Course> requiredCoursesList = allCourses.stream()
-                .filter(course -> course.getType().equals("required"))
-                .collect(Collectors.toList());
+        List<Course> requiredCourses = filterCoursesByType(allCourses, "required");
+        List<Course> electiveCourses = filterCoursesByType(allCourses, "elective");
 
-        List<Course> electiveCoursesList = allCourses.stream()
-                .filter(course -> course.getType().equals("elective"))
-                .collect(Collectors.toList());
+        displayCourses("필수 과목", requiredCourses);
+        displayCourses("선택 과목", electiveCourses);
 
-        System.out.println("선택할 수 있는 과목 목록: ");
+        Student student = new Student(studentId, name, "상태", new HashMap<>());
+        student.addCourses(selectCourses(br, requiredCourses, "필수"));
+        student.addCourses(selectCourses(br, electiveCourses, "선택"));
 
-        // 필수과목 보기
-        System.out.println("필수 과목:");
-        for (Course course : requiredCoursesList) {
-            if (course.getType().equals("required")) {
-                System.out.printf(" %s |", course);
-            }
+        System.out.println("\n학생 정보:");
+        System.out.printf("ID: %d, 이름: %s\n", student.getId(), student.getName());
+        handleScores(br, student);
+//        displayStudentCourses(student);
 
-        }
-        //선택과목 보기
-        System.out.println("\n\n선택 과목:");
-        for (Course course : electiveCoursesList) {
-            if (course.getType().equals("elective")) {
-                System.out.printf(" %s |", course);
-            }
-        }
-        // 필수 과목 선택
-        List<Course> requiredCourses = selectCourses(br, "Required", requiredCoursesList);
-
-        // 선택 과목 선택
-        List<Course> electiveCourses = selectCourses(br, "Elective", electiveCoursesList);
-
-        // 학생 객체 생성
-        Student student = new Student(studentId, name, "good", new HashMap<>());
-
-        // 과목을 학생에게 추가
-        for (Course course : allCourses) {
-            student.addCourse(course.getCourseId(), new CourseEnrollment(course));
-        }
-
-        // 학생의 선택 정보 출력
-        System.out.println("학생 정보:");
-        System.out.println("ID: " + student.getId());
-        System.out.println("이름: " + student.getName());
-        System.out.println("선택한 필수 과목:");
-        for (Course course : requiredCourses) {
-            System.out.println(course);
-        }
-
-        System.out.println("선택한 선택 과목:");
-        for (Course course : electiveCourses) {
-            System.out.println(course);
-        }
     }
 
-    // 과목 선택 메서드
-// 과목 선택 메서드
-    private static List<Course> selectCourses(BufferedReader br, String courseType, List<Course> course) throws IOException {
+    // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
+    private static List<Course> filterCoursesByType(List<Course> courses, String type) {
+        return courses.stream()
+                .filter(course -> course.getType().equals(type))
+                .collect(Collectors.toList());
+    }
+
+    private static void displayCourses(String header, List<Course> courses) {
+        System.out.println(header + ":");
+        courses.forEach(course -> System.out.printf(" %s (%s) |", course.getCourseName(), course.getCourseId()));
+        System.out.println("\n");
+    }
+
+    /**
+     * 과목선택하기
+     *
+     * @param br:               입력값: 과목id
+     * @param availableCourses: 중복이나 해당 종류가 아닌 과목 선택 방지
+     * @param type:             필수과목, 선택과목
+     * @return : 선택된 List<Course>
+     * @throws IOException
+     */
+    private static List<Course> selectCourses(BufferedReader br, List<Course> availableCourses, String type) throws IOException {
+        System.out.println("다음 중에서 " + type + " 과목을 최소 3개 선택해주세요:");
+
         List<Course> selectedCourses = new ArrayList<>();
-        System.out.println("\n" + courseType + " Courses를 선택해주세요 최소 3개 이상");
 
-        // 최소 3개 이상 선택하도록 반복
         while (selectedCourses.size() < 3) {
-            System.out.print(courseType + " Course 선택: ");
-            String courseId = br.readLine();
+            String courseId = br.readLine().trim(); // C01
 
-            // 선택한 과목이 필수 과목인지 확인
-            Course selectedCourse = findCourse(courseId);
+            if ("e".equalsIgnoreCase(courseId)) break;
+            Course course = availableCourses.stream()
+                    .filter(c -> courseId.equals(c.getCourseId()))
+                    .findFirst().orElse(null);
 
-            if (selectedCourse != null) {
-                if (selectedCourses.contains(selectedCourse)) {
-                    System.out.println("이미 선택된 과목입니다.");
-                    continue;
-                }
-                // 해야하는 과목 && 선택한 과목
-                else if (courseType.equals("Required") && !course.contains(selectedCourse)) {
-                    System.out.println("다음 과목은 선택 과목입니다. 다시 선택해세요.");
-                    continue;
+            if (course != null && !selectedCourses.contains(course)) {
+                selectedCourses.add(course);
 
-                }// 해야하는 과목 && 선택한 과목
-                else if (courseType.equals("Elective") && !course.contains(selectedCourse)) {
-                    System.out.println("다음 과목은 필수 과목입니다. 다시 선택해세요.");
-                    continue;
-
-                }
-                selectedCourses.add(selectedCourse);
-
+                System.out.println(course.getCourseName() + " 추가됨.");
             } else {
-                System.out.println("잘못된 과목 코드입니다. 다시 입력해주세요.");
-                continue;
-
+                System.out.println("유효하지 않거나 이미 추가된 과목입니다. 다시 입력해주세요.");
             }
-
-
         }
         return selectedCourses;
     }
 
-    // 과목 검색 메서드
-    private static Course findCourse(String courseId) {
-        List<Course> courses = CourseData.getCourseList();
-        for (Course course : courses) {
-            if (course.getCourseId().equals(courseId)) {
-                return course;
+    /**
+     * 과목별 점수 입력하기
+     * 한 과목당 최대 10회차 까지 점수 입력 가능 과목별 -  회차 점수 -> CourseEnrollment에서 관리
+     *
+     * @param br:     사용자 점수 입력
+     * @param student 학생 //가지고 있음 Map<String, CourseEnrollment> courses;
+     * @throws IOException
+     */
+    private static void handleScores(BufferedReader br, Student student) throws IOException {
+        System.out.println("과목별 점수를 입력하려면 's', 점수 입력을 마치려면 'e'를 입력하세요.");
+        String input = br.readLine();
+
+        if ("s".equalsIgnoreCase(input)) {
+            //학생이 등록한 과목 조회
+            for (CourseEnrollment enrollment : student.getCourses().values()) {
+
+                System.out.println("과목: " + enrollment.getCourse().getCourseName());
+                for (int session = 1; session <= 3; session++) {
+                    System.out.printf("%d 회차의 점수: (e 누르면 입력완료)", session);
+                    String scoreInput = br.readLine();
+                    if ("e".equalsIgnoreCase(scoreInput)) break;
+                    try {
+                        int score = Integer.parseInt(scoreInput);
+                        enrollment.addScore(session, score);
+                    } catch (NumberFormatException e) {
+                        System.out.println("유효한 숫자를 입력하세요.");
+                        session--;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        session--;
+
+                    }
+                }
+
             }
         }
-        return null;
+        System.out.println("등록된 모든 과목의 점수:");
+        for (CourseEnrollment enrollment : student.getCourses().values()) {
+            System.out.println("과목: " + enrollment.getCourse().getCourseName() + "의 점수");
+            for (int session = 1; session <= 3; session++) {
+                Score score = enrollment.getScoresBySession().get(session);
+                String scoreOutput = (score != null) ? String.valueOf(score.getScore()) : "점수 없음";
+                System.out.printf(" 회차 %d: 점수 %s\n", session, scoreOutput);
+            }
+        }
     }
 }
