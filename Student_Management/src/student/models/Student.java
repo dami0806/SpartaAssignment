@@ -20,8 +20,6 @@ public class Student extends Person {
         this.courses = courses;
     }
 
-
-
     public void addCourses(List<Course> coursesToAdd) {
         for (Course course : coursesToAdd) {
             CourseEnrollment enrollment = new CourseEnrollment(course, new HashMap<>());
