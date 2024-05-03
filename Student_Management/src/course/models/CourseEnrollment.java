@@ -12,4 +12,8 @@ public class CourseEnrollment {
     public Map<Integer, Score> getScoresBySession() {
         return scoresBySession;
     }
+
+    public CourseEnrollment(Course course) {
+        this.course = course;
+    }
 }
