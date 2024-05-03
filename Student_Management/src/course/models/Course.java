@@ -7,4 +7,5 @@ import java.util.Map;
 public class Course {
     private int courseId; // 과목 고유 번호
     private String courseName; // 과목 이름
+    private String type;  // "required" or "elective"
 }
