@@ -1,19 +1,35 @@
 package student.views;
 
 import course.models.CourseEnrollment;
+import student.models.Student;
 
 import java.util.Map;
 
 public class StudentView {
 
-    public void printStudentDetails(int id, String name, String state, Map<String, CourseEnrollment> courses) {
+    public static void displayStudentDetails(Student student) {
 
-        System.out.println("Student ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("State: " + state);
-        System.out.println("Courses:");
-        for (Map.Entry<String, CourseEnrollment> entry : courses.entrySet()) {
-            System.out.println("Course ID: " + entry.getKey() + ", Course Name: " + entry.getValue().getCourse().getCourseName());
-        }
+        System.out.println("=======================================");
+
+        System.out.println("학생 ID: " + student.getId());
+        System.out.println("이름: " + student.getName());
+        System.out.println("상태: " + student.getState());
+        System.out.println("수강 과목:");
+        student.getCourses().forEach((id, enrollment) ->
+                System.out.println("과목 ID: " + id + ", 과목 이름: " + enrollment.getCourse().getCourseName()));
+        System.out.println("=========================================");
+    }
+
+    public static void displayStudentName(Map<Integer, Student> students) {
+
+        System.out.println("=======================================");
+        students.forEach((id, student) -> System.out.printf("%d: %s ", id, student.getName()));
+        System.out.print("");
+        System.out.println("=========================================");
+    }
+
+
+    public static void displaysAllStudents(Map<Integer, Student> students) {
+        students.forEach((id, student) -> displayStudentDetails(student));
     }
 }

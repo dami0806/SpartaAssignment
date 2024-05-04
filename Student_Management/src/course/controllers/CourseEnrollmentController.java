@@ -4,12 +4,13 @@ import Score.models.Score;
 import course.models.Course;
 import course.models.CourseEnrollment;
 import student.models.Student;
+import student.views.StudentView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class CourseEnrollmentController {
-
+    static StudentView studentview = new StudentView();
 
     /**
      * 과목별 점수 입력하기
@@ -22,6 +23,7 @@ public class CourseEnrollmentController {
 
     // 과목별 점수 추가하기
     public static void handleAddScores(BufferedReader br, Student student) throws IOException {
+        studentview.displayStudentDetails(student);
         System.out.println("점수를 추가할 과목의 ID를 입력하세요:");
         String courseId = br.readLine().trim();
 
@@ -56,6 +58,10 @@ public class CourseEnrollmentController {
         int nextSession = 1;
         while (courseEnrollment.getScoresBySession().containsKey(nextSession)) {
             nextSession++;
+            if (nextSession > 10) {
+                System.out.println("이미 모든섹션의 점수가 찼습니다.");
+                break;
+            }
         }
         return nextSession;
     }
@@ -77,16 +83,6 @@ public class CourseEnrollmentController {
 
                 input = br.readLine().trim();
                 if (input.equalsIgnoreCase("Y")) {
-
-                    //어떤과목인지 받을지
-                //    String newCourseId = getValidCourseId(br, student);
-
-                    //그 과목에 대해서 진행
-//                    CourseEnrollment newCourseEnrollment = student.getCourses().get(newCourseId); // 새 과목 객체 가져오기
-//                    System.out.printf("[%s 과목을 선택했습니다.]", newCourseEnrollment.getCourse().getCourseName());
-//                    //다른과목 선택
-//                    getAddScoreSession(br, student, newCourseEnrollment);
-
                     handleAddScores(br, student);
 
                 } else {
@@ -101,18 +97,21 @@ public class CourseEnrollmentController {
         }
     }
 
-
     //과목별 점수 수정하기
-    public static void handleUpdateScores(BufferedReader br, Student student) throws IOException {
-        // System.out.println("점수를 수정할 과목의 ID를 입력하세요:");
-        String courseId = getValidCourseId(br, student);
+    public static void handleUpdateScores(BufferedReader br, Student student) {
+        studentview.displayStudentDetails(student);
+    try {
+            String courseId = getValidCourseId(br, student);
 
-        CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
-        getValidSession(br, student, courseEnrollment);
+            CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
+            getValidSession(br, student, courseEnrollment);
 
-        getValidScore(br);
-
-        displayAllCourseScores(student);
+            int validScore = getValidScore(br);
+            courseEnrollment.updateScore(getValidSession(br, student, courseEnrollment), validScore);
+            displayAllCourseScores(student);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // 유효한 과목ID
@@ -132,6 +131,8 @@ public class CourseEnrollmentController {
     private static int getValidSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws
             IOException {
         System.out.println("수정할 회차를 입력하세요:");
+        displayScores(student, courseEnrollment);
+
         int session = 0;
         try {
             session = Integer.parseInt(br.readLine().trim());
@@ -141,7 +142,6 @@ public class CourseEnrollmentController {
             }
             if (!courseEnrollment.getScoresBySession().containsKey(session)) {
                 System.out.println("이전 섹션의 점수가 없습니다");
-                getValidSession(br, student, courseEnrollment);
             }
 
         } catch (NumberFormatException e) {
@@ -188,7 +188,7 @@ public class CourseEnrollmentController {
 
     private static void displayScores(Student student, CourseEnrollment courseEnrollment) {
         System.out.printf("등록된[%s] 과목의 점수:\n");
-        if(student.getCourses().containsKey(courseEnrollment.getCourse().getCourseId())) {
+        if (student.getCourses().containsKey(courseEnrollment.getCourse().getCourseId())) {
             System.out.println("과목: " + courseEnrollment.getCourse().getCourseName() + "의 점수");
 
             for (int session = 1; session <= 10; session++) {
