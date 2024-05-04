@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class StudentView {
 
-    public static void displayStudentDetails(Student student){
+    public static void displayStudentDetails(Student student) {
 
         System.out.println("=======================================");
 
@@ -17,6 +17,14 @@ public class StudentView {
         System.out.println("수강 과목:");
         student.getCourses().forEach((id, enrollment) ->
                 System.out.println("과목 ID: " + id + ", 과목 이름: " + enrollment.getCourse().getCourseName()));
+        System.out.println("=========================================");
+    }
+
+    public static void displayStudentName(Map<Integer, Student> students) {
+
+        System.out.println("=======================================");
+        students.forEach((id, student) -> System.out.printf("%d: %s ", id, student.getName()));
+        System.out.print("");
         System.out.println("=========================================");
     }
 

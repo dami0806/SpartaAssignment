@@ -14,6 +14,7 @@ public class StudentManager {
     public void addStudent(Student student) {
         students.put(student.getId(), student);
     }
+
     // 학생 정보 가져오기
     public Student getStudent(int id) {
         return students.get(id);
@@ -30,9 +31,12 @@ public class StudentManager {
             System.out.printf("ID: %d, 이름: %s\n", student.getId(), student.getName());
         }
     }
-
+    // ID로 학생 검색
+    public Student getStudentById(int id) {
+        return students.get(id);
+    }
     //학생 삭제
-    public void removeStudent(int id) {
+    public void deleteStudent(int id) {
         students.remove(id);
     }
 }

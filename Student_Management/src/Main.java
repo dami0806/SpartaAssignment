@@ -1,8 +1,10 @@
 import Score.models.Score;
+import course.controllers.CourseEnrollmentController;
 import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
 import student.StudentManager;
+import student.controllers.StudentController;
 import student.models.IDGenerator;
 import student.models.Student;
 import student.views.StudentView;
@@ -21,10 +23,12 @@ import java.util.stream.Collectors;
 
 public class Main {
     private static StudentManager studentManager = new StudentManager();
-private static StudentView studentView = new StudentView();
-    public static void main(String[] args) throws IOException {
+    private static StudentView studentView = new StudentView();
+    private static StudentController studentController;
 
-      mainPage();
+    public static void main(String[] args) throws IOException {
+        studentController = new StudentController(studentView, studentManager);
+        mainPage();
     }
 
     private static void mainPage() throws IOException {
@@ -45,10 +49,12 @@ private static StudentView studentView = new StudentView();
             case "2":
                 //  메인 >> 2 선택 시 : 수강생 리스트 쭉 보여주고 수강생 번호 입력하기
                 studentManager.displayAllStudents();
+                manageScores(br);
                 // 수강생 번호 입력하기
-                
-                // 점수 관리 핸들러 호출
+                System.out.println("수강생 번호를 입력하세요:");
 
+                // 점수 관리 핸들러 호출
+                studentController.handleUpdateName(new BufferedReader(new InputStreamReader(System.in)));
 
                 mainPage();
 
@@ -59,40 +65,103 @@ private static StudentView studentView = new StudentView();
                 break;
             default:
                 System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+                mainPage();
                 break;
         }
     }
-    private static void studentManageSession(BufferedReader br) throws IOException {
+
+    // 선택된 학생에 대한 과목
+    private static void manageScores(BufferedReader br) throws IOException {
+
+        System.out.println("수강생 번호를 입력하세요:");
+        int studentId = Integer.parseInt(br.readLine());
+        Student student = studentManager.getStudent(studentId);
+        scoreSettingSession(br, student);
+
+        if (student == null) {
+            System.out.println("없는 학생입니다. 다시 시도하세요.");
+            manageScores(br); // 재시도
+        }
+    }
+
+    private static void scoreSettingSession(BufferedReader br, Student student) throws IOException {
+        //2 점수관리
         System.out.println("==================================");
-        System.out.println("수강생 관리 실행 중...");
-        System.out.println("1. 수강생 등록");
-        System.out.println("2. 수강생 목록 조회");
-        System.out.println("3. 메인 화면 이동");
-        System.out.print("관리 항목을 선택하세요...");
+        System.out.println("점수 관리 실행 중...");
+        System.out.println("1. 수강생의 점수등록");
+        System.out.println("2. 수강생의 과목별 회차 점수 수정");
+        System.out.println("3. 수강생의 특정 과목 회차별 등급 조회");
+        System.out.println("4. 다른 수강생 선택하기");
+        System.out.println("0. 메인 화면 이동");
 
         String input = br.readLine();
 
         switch (input) {
             case "1":
-                 handleStudentRegistration(br);
+                CourseEnrollmentController.handleAddScores(br, student);
+                break;
+            case "2":
+                CourseEnrollmentController.handleUpdateScores(br, student);
+                break;
+            case "3":
+                // 수강생의 특정 과목 회차별 등급 조회
+                studentView.displayStudentDetails(student);
+                break;
+            case "4":
+                manageScores(br);
+                break;
+            case "0":
+                mainPage();
+                break;
+            default:
+                System.out.println("관리 항목을 선택하세요");
+                scoreSettingSession(br, student); // 재호출
+        }
+    }
+
+    private static void studentManageSession(BufferedReader br) throws IOException {
+        System.out.println("==================================");
+        System.out.println("수강생 관리 실행 중...");
+        System.out.println("1. 수강생 등록");
+        System.out.println("2. 수강생 목록 조회");
+        System.out.println("3. 수강생 정보 수정");
+        System.out.println("4. 수강생 정보 삭제");
+        System.out.println("5. 메인 화면 이동");
+
+        System.out.print("관리 항목을 선택하세요...\n>>");
+
+        String input = br.readLine();
+
+        switch (input) {
+            case "1":
+                handleStudentRegistration(br);
                 break;
             case "2":
                 //  메인 >> 2 선택 시 : 수강생 리스트 쭉 보여주고 수강생 번호 입력하기
-                //StuentView.displayAllStudents();
                 studentView.displaysAllStudents(studentManager.getAllStudents());
-                mainPage();;
+                mainPage();
+                ;
                 // 점수 관리 핸들러 호출
                 break;
             case "3":
-                System.out.println("프로그램을 종료합니다.");
-                System.exit(0);
+                studentController.handleUpdateName(br);
+                mainPage();
+                break;
+            case "4":
+                studentController.handleDeleteName(br);
+                mainPage();
+                break;
+            case "5":
+                mainPage();
                 break;
             default:
                 System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+                studentManageSession(br);
                 break;
         }
 
     }
+
     //   학생이 등록될때 이름과 필수,선택 과목까지 입력을 해야 고유번호와 함께 생성
     private static void handleStudentRegistration(BufferedReader br) throws IOException {
 
