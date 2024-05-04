@@ -1,8 +1,14 @@
 # SpartaAssignment
 ### Level 1,2,3: day1_nbCalculator파일로 확인해주세요
+
+|              | level1, level2, level3 | [계산기 개념](개념_wiki_url)      |
+|--------------------|-------------------------|----------------------------------|
+| 학생관리시스템   |                         | [학생관리시스템 개념](개념_wiki_url) |
+
+
 ---
 ## 학습목표
-- Level 1 
+- Level 1
   - 변수 & 타입 이해하기
   - 연산자 이해하기
   - 제어문 & 반복문 이해하기
@@ -26,6 +32,7 @@
   
 # 사용된 기술 개념
 
+## 계산기  
 
 ### [1. Level 1](https://github.com/dami0806/Sparta_Assignment/wiki#level-1)
  - [Static](https://github.com/dami0806/Sparta_Assignment/wiki#static)
@@ -56,3 +63,9 @@
 - [2. 문자열 비교 equal 와 NullPointerException](https://github.com/dami0806/SpartaAssignment/wiki#2-%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%B9%84%EA%B5%90-equal-%EC%99%80-nullpointerexception)
   
   - [NPE 방지하고 equal 사용방법](https://github.com/dami0806/SpartaAssignment/wiki#npe-%EB%B0%A9%EC%A7%80%ED%95%98%EA%B3%A0-equal-%EC%82%AC%EC%9A%A9%EB%B0%A9%EB%B2%95)
+----
+
+## 2. Student ManageMent System.
+
+
+
