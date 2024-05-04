@@ -24,28 +24,31 @@ public class CourseEnrollmentController {
     public static void handleAddScores(BufferedReader br, Student student) throws IOException {
         System.out.println("점수를 추가할 과목의 ID를 입력하세요:");
         String courseId = br.readLine().trim();
+
         CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
 
         if (courseEnrollment == null) {
             System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
             return;
         }
-//
         // 해당 섹션에 점수 입력
         getAddScoreSession(br, student, courseEnrollment);
+    }
 
-        String response = br.readLine().trim();
+    public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
+        //자동으로 채워지지않은 섹션보여주기
+        int nextSession = findNextSession(courseEnrollment);
 
-        if (response.equalsIgnoreCase("Y")) {
-            handleAddScores(br, student);
+        System.out.printf("%d 회차에 점수를 입력하세요: ", nextSession);
+        int newScore = getValidScore(br);
+        try {
+            courseEnrollment.addScore(nextSession, newScore); // 점수 추가
+            System.out.println("점수가 성공적으로 추가되었습니다.");
+            displayAllCourseScores(student);
+            getMoreAddScoreSession(br, student, courseEnrollment);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-//        //s 입력
-//        if (!handleStartAddScores(br, student)) {
-//            System.out.println("점수입력없이 마칩니다.");
-//            return;
-//        }
-
     }
 
     //자동으로 채워지지않은 섹션보여주기
@@ -61,19 +64,29 @@ public class CourseEnrollmentController {
         int nextSession = findNextSession(courseEnrollment);
 
         while (true) {
-            System.out.printf("[%s 과목]의 다음[%d섹션]의 점수도 입력할건가요?(Y/N)\n", courseEnrollment.getCourse().getCourseName(), nextSession);
+            System.out.printf("[%s 과목]의 다음[%d섹션]의 점수도 입력할건가요?(Y/N)\n",
+                    courseEnrollment.getCourse().getCourseName(), nextSession);
             String input = br.readLine().trim();
 
             if (input.equalsIgnoreCase("Y")) {
                 getAddScoreSession(br, student, courseEnrollment);
                 break;
             } else if (input.equalsIgnoreCase("N")) {
-                System.out.printf("[%s 과목]의 점수 입력을 진행하지 않습니다.", courseEnrollment.getCourse().getCourseName());
-                System.out.println("점수를 입력할 다른 과목을 선택하시겠습니까?");
-                //
+                System.out.printf("[%s 과목]의 점수 입력을 진행하지 않습니다.\n", courseEnrollment.getCourse().getCourseName());
+                System.out.println("점수를 입력할 다른 과목을 선택하시겠습니까?(Y/N)");
+
                 input = br.readLine().trim();
                 if (input.equalsIgnoreCase("Y")) {
-                    //다른과목 선택
+
+                    //어떤과목인지 받을지
+                //    String newCourseId = getValidCourseId(br, student);
+
+                    //그 과목에 대해서 진행
+//                    CourseEnrollment newCourseEnrollment = student.getCourses().get(newCourseId); // 새 과목 객체 가져오기
+//                    System.out.printf("[%s 과목을 선택했습니다.]", newCourseEnrollment.getCourse().getCourseName());
+//                    //다른과목 선택
+//                    getAddScoreSession(br, student, newCourseEnrollment);
+
                     handleAddScores(br, student);
 
                 } else {
@@ -88,22 +101,6 @@ public class CourseEnrollmentController {
         }
     }
 
-    public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
-        //자동으로 채워지지않은 섹션보여주기
-        int nextSession = findNextSession(courseEnrollment);
-
-        int newScore = getValidScore(br);
-        System.out.printf("%d 회차에 점수를 입력하세요: ", nextSession);
-
-        try {
-            courseEnrollment.addScore(nextSession, newScore); // 점수 추가
-            System.out.println("점수가 성공적으로 추가되었습니다.");
-            displayAllCourseScores(student);
-            getMoreAddScoreSession(br, student, courseEnrollment);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     //과목별 점수 수정하기
     public static void handleUpdateScores(BufferedReader br, Student student) throws IOException {
