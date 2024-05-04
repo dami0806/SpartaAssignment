@@ -1,6 +1,7 @@
 package course.models;
 
 import Score.models.Score;
+import course.models.Course;
 import student.models.Student;
 
 import java.io.BufferedReader;
@@ -52,13 +53,7 @@ public class CourseEnrollment {
 
     // 점수 수정
     public void updateScore(int session, int score) throws Exception {
-        if (scoresBySession == null) {
-            throw new Exception("점수가 등록되어있지 않습니다");
-        }
-        String CourseId = course.getCourseId();
-
         int ses = session;
-
         if (score < 0 || score > 100) {
             throw new Exception("유효한 점수를 지정해주세요(0-100)");
         }

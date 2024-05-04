@@ -20,13 +20,13 @@ public class Student extends Person {
         this.courses = courses;
     }
 
-    public void addCourses(List<Course> coursesToAdd) {
+    // 강의 추가
+    public void addCourse(List<Course> coursesToAdd) {
         for (Course course : coursesToAdd) {
-            CourseEnrollment enrollment = new CourseEnrollment(course, new HashMap<>());
-            this.courses.put(course.getCourseId(), enrollment);
+            CourseEnrollment courseEnrollment = new CourseEnrollment(course, new HashMap<>());
+            courses.put(course.getCourseId(), courseEnrollment);
         }
     }
-
 
     public String getState() {
         return state;
