@@ -2,6 +2,7 @@ import Score.models.Score;
 import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
+import student.StudentManager;
 import student.models.IDGenerator;
 import student.models.Student;
 import student.views.StudentView;
@@ -12,8 +13,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static course.controllers.CourseEnrollmentController.handleAddScores;
-import static course.controllers.CourseEnrollmentController.handleUpdateScores;
 
 // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
 // 과목 선택하기
@@ -21,7 +20,14 @@ import static course.controllers.CourseEnrollmentController.handleUpdateScores;
 //과목별 점수 입력하기
 
 public class Main {
+    private static StudentManager studentManager = new StudentManager();
+private static StudentView studentView = new StudentView();
     public static void main(String[] args) throws IOException {
+
+      mainPage();
+    }
+
+    private static void mainPage() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("\n==================================");
@@ -34,10 +40,18 @@ public class Main {
         String input = br.readLine();
         switch (input) {
             case "1":
-                handleStudentRegistration(br);
+                studentManageSession(br);
                 break;
             case "2":
+                //  메인 >> 2 선택 시 : 수강생 리스트 쭉 보여주고 수강생 번호 입력하기
+                studentManager.displayAllStudents();
+                // 수강생 번호 입력하기
+                
                 // 점수 관리 핸들러 호출
+
+
+                mainPage();
+
                 break;
             case "3":
                 System.out.println("프로그램을 종료합니다.");
@@ -48,9 +62,40 @@ public class Main {
                 break;
         }
     }
+    private static void studentManageSession(BufferedReader br) throws IOException {
+        System.out.println("==================================");
+        System.out.println("수강생 관리 실행 중...");
+        System.out.println("1. 수강생 등록");
+        System.out.println("2. 수강생 목록 조회");
+        System.out.println("3. 메인 화면 이동");
+        System.out.print("관리 항목을 선택하세요...");
 
+        String input = br.readLine();
+
+        switch (input) {
+            case "1":
+                 handleStudentRegistration(br);
+                break;
+            case "2":
+                //  메인 >> 2 선택 시 : 수강생 리스트 쭉 보여주고 수강생 번호 입력하기
+                //StuentView.displayAllStudents();
+                studentView.displaysAllStudents(studentManager.getAllStudents());
+                mainPage();;
+                // 점수 관리 핸들러 호출
+                break;
+            case "3":
+                System.out.println("프로그램을 종료합니다.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+                break;
+        }
+
+    }
     //   학생이 등록될때 이름과 필수,선택 과목까지 입력을 해야 고유번호와 함께 생성
     private static void handleStudentRegistration(BufferedReader br) throws IOException {
+
         System.out.print("학생 이름을 입력하세요: ");
         String name = br.readLine();
         if (name.isEmpty()) {
@@ -86,13 +131,16 @@ public class Main {
         if (!enrollments.isEmpty()) {
             int studentId = IDGenerator.getInstance().generateId();
             Student student = new Student(studentId, name, "Active", enrollments);
+            studentManager.addStudent(student);
+
             System.out.println("학생 등록이 완료되었습니다.");
             StudentView.displayStudentDetails(student);
+            mainPage();
         } else {
             System.out.println("최소개수의 과목을 선택하지 않아 학생을 등록할 수 없습니다.");
         }
     }
-    
+
     // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
     private static List<Course> filterCoursesByType(List<Course> courses, String type) {
         return courses.stream()
@@ -115,29 +163,29 @@ public class Main {
      * @return : 선택된 List<Course>
      * @throws IOException
      */
-    private static List<Course> selectCourses(BufferedReader br, List<Course> availableCourses, String type) throws IOException {
-
-        System.out.println("다음 중에서 " + type + " 과목을 최소 3개 선택해주세요:");
-        List<Course> selectedCourses = new ArrayList<>();
-
-        while (selectedCourses.size() < 3) {
-            System.out.print("과목 ID를 입력하세요: ");
-            String courseId = br.readLine().trim(); // C01
-
-            if ("e".equalsIgnoreCase(courseId)) break;
-
-            Course course = availableCourses.stream()
-                    .filter(c -> courseId.equals(c.getCourseId()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (course != null && !selectedCourses.contains(course)) {
-                selectedCourses.add(course);
-                System.out.println(course.getCourseName() + " 추가됨.");
-            } else {
-                System.out.println("유효하지 않거나 이미 추가된 과목입니다. 다시 입력해주세요.");
-            }
-        }
-        return selectedCourses;
-    }
+//    private static List<Course> selectCourses(BufferedReader br, List<Course> availableCourses, String type) throws IOException {
+//
+//        System.out.println("다음 중에서 " + type + " 과목을 최소 3개 선택해주세요:");
+//        List<Course> selectedCourses = new ArrayList<>();
+//
+//        while (selectedCourses.size() < 3) {
+//            System.out.print("과목 ID를 입력하세요: ");
+//            String courseId = br.readLine().trim(); // C01
+//
+//            if ("e".equalsIgnoreCase(courseId)) break;
+//
+//            Course course = availableCourses.stream()
+//                    .filter(c -> courseId.equals(c.getCourseId()))
+//                    .findFirst()
+//                    .orElse(null);
+//
+//            if (course != null && !selectedCourses.contains(course)) {
+//                selectedCourses.add(course);
+//                System.out.println(course.getCourseName() + " 추가됨.");
+//            } else {
+//                System.out.println("유효하지 않거나 이미 추가된 과목입니다. 다시 입력해주세요.");
+//            }
+//        }
+//        return selectedCourses;
+//    }
 }
