@@ -46,7 +46,7 @@ public class Main {
         handleAddScores(br, student);
 
         //점수 수정하기
-        handleUpdateScores(br, student);
+      //  handleUpdateScores(br, student);
 
 
     }
