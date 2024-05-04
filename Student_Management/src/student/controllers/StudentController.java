@@ -35,6 +35,6 @@ public class StudentController {
     }
 
     public void updateView() {
-        view.printStudentDetails(student.getId(), student.getName(), student.getState(), student.getCourses());
+        StudentView.displayStudentDetails(student);
     }
 }

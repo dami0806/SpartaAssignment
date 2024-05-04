@@ -38,12 +38,11 @@ public class Course {
         this.courseName = courseName;
         this.type = type;
     }
+
     @Override
     public String toString() {
         return String.format("[%s]: %s(%s)",
                 this.courseId, courseName,
                 type.substring(0, 1).toUpperCase() + type.substring(1));
-
     }
-
 }
