@@ -40,7 +40,7 @@ public class StudentController {
 
     //학생 이름 수정하기
     public void handleUpdateName(BufferedReader br) throws IOException {
-        view.displayBasicInfoStudent(studentManager.getAllStudents());
+        StudentView.displayBasicInfoStudent(studentManager.getAllStudents());
 
         System.out.println("이름을 변경할 학생의 고유번호를 입력하세요:");
 

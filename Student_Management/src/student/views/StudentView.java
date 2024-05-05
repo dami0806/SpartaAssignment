@@ -23,7 +23,7 @@ public class StudentView {
     public static void displayBasicInfoStudent(Map<Integer, Student> students) {
 
         System.out.println("============== 학생 ID, 이름정보 ================================");
-        students.forEach((id, student) -> System.out.printf("%학생 ID: %d, 이름: %s\n ", id, student.getName()));
+        students.forEach((id, student) -> System.out.printf("학생 ID: %d, 이름: %s\n ", id, student.getName()));
         System.out.println("=========================================");
     }
 
