@@ -2,13 +2,6 @@ package course.models;
 
 import Score.controllers.ScoreController;
 import Score.models.Score;
-import course.models.Course;
-import student.models.Student;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.lang.reflect.AnnotatedType;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CourseEnrollment {

@@ -1,11 +1,9 @@
 package course.controllers;
 
 import Score.models.Score;
-import course.models.Course;
 import course.models.CourseEnrollment;
 import student.models.Student;
 import student.views.StudentView;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -41,7 +39,7 @@ public class CourseEnrollmentController {
     }
 
     public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
-        //자동으로 채워지지않은 섹션보여주기
+        // 채워지지않은 섹션보여주기
         int nextSession = findNextSession(courseEnrollment);
 
         System.out.printf("%d 회차에 점수를 입력하세요: ", nextSession);
@@ -106,11 +104,13 @@ public class CourseEnrollmentController {
         studentview.displayStudentDetails(student);
         try {
             String courseId = getValidCourseId(br, student);
+
             if (courseId == null) {
                 System.out.println("입력한 과목 ID가 유효하지 않습니다.");
                 return;
             }
 
+            // 해당 과목 찾은 후 섹션 입력
             CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
             int session = getValidSession(br, student, courseEnrollment);
             if (session == -1) {
@@ -118,12 +118,17 @@ public class CourseEnrollmentController {
                 return;
             }
 
+            // 해당 섹션 찾은 후 점수 입력
             int validScore = getValidScore(br);
             if (validScore == -1) {
                 System.out.println("유효한 점수가 입력되지 않았습니다.");
                 return;
             }
+
+            // 점수 업데이트
             courseEnrollment.updateScore(session, validScore);
+
+            // 호출
             displayAllCourseScores(student);
             return;
         } catch (Exception e) {

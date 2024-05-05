@@ -1,4 +1,5 @@
 import Score.models.Score;
+import collectionOfMessages.Messages;
 import course.controllers.CourseEnrollmentController;
 import course.models.Course;
 import course.models.CourseData;
@@ -21,6 +22,12 @@ import java.util.stream.Collectors;
 //과목id -
 //과목별 점수 입력하기
 
+// 역할분담을 이렇게 하는게 맞는지
+// 구조확인
+// 재활용이나 객체 생성
+// 초기 생성자만들때 모두 안넣는경우
+// 경우 실패시 재귀 호출 or 실패문
+// 코드에 대한 리뷰필요
 public class Main {
     private static StudentManager studentManager = new StudentManager();
     private static StudentView studentView = new StudentView();
@@ -34,7 +41,7 @@ public class Main {
     private static void mainPage() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("\n==================================");
+        System.out.println("\n==============[수강생관리 메인화면]====================");
         System.out.println("내일배움캠프 수강생 관리 프로그램 실행 중...");
         System.out.println("1. 수강생 관리");
         System.out.println("2. 점수 관리");
@@ -53,9 +60,6 @@ public class Main {
                 manageScores(br);
                 // 수강생 번호 입력하기
                 System.out.println("수강생 번호를 입력하세요:");
-
-                // 점수 관리 핸들러 호출
-                //studentController.handleUpdateName(new BufferedReader(new InputStreamReader(System.in)));
                 mainPage();
 
                 break;
@@ -86,7 +90,7 @@ public class Main {
 
     private static void scoreSettingSession(BufferedReader br, Student student) throws IOException {
         //2 점수관리
-        System.out.println("==================================");
+        System.out.println("==============[2. 점수 관리 페이지]====================");
         System.out.println("점수 관리 실행 중...");
         System.out.println("1. 수강생의 점수등록");
         System.out.println("2. 수강생의 과목별 회차 점수 수정");
@@ -135,13 +139,14 @@ public class Main {
 
         switch (input) {
             case "1":
-                handleStudentRegistration(br);
+                studentController.handelStudentRegistration(br);
+                mainPage();
                 break;
             case "2":
                 //  메인 >> 2 선택 시 : 수강생 리스트 쭉 보여주고 수강생 번호 입력하기
                 studentView.displaysAllStudents(studentManager.getAllStudents());
                 mainPage();
-                ;
+
                 // 점수 관리 핸들러 호출
                 break;
             case "3":
@@ -160,67 +165,5 @@ public class Main {
                 studentManageSession(br);
                 break;
         }
-
-    }
-
-    //   학생이 등록될때 이름과 필수,선택 과목까지 입력을 해야 고유번호와 함께 생성
-    private static void handleStudentRegistration(BufferedReader br) throws IOException {
-
-        System.out.print("학생 이름을 입력하세요: ");
-        String name = br.readLine();
-        if (name.isEmpty()) {
-            System.out.println("이름을 입력해야 합니다.");
-            return;
-        }
-
-        CourseData.createCourseList();
-        List<Course> allCourses = CourseData.getCourseList();
-        List<Course> requiredCourses = filterCoursesByType(allCourses, "required");
-        List<Course> electiveCourses = filterCoursesByType(allCourses, "elective");
-
-        displayCourses("필수 과목", requiredCourses);
-        displayCourses("선택 과목", electiveCourses);
-
-        System.out.println("필수 과목 및 선택 과목 중에서 선택할 과목의 ID를 입력하세요 (예: C01 D02):");
-        String[] courseIds = br.readLine().trim().split(" ");
-
-        Map<String, CourseEnrollment> enrollments = new HashMap<>();
-
-        for (String courseId : courseIds) {
-            if (!courseId.isEmpty()) {
-                Course course = allCourses.stream()
-                        .filter(c -> courseId.equals(c.getCourseId()))
-                        .findFirst().orElse(null);
-                if (course != null) {
-                    enrollments.put(course.getCourseId(), new CourseEnrollment(course, new HashMap<>()));
-                } else {
-                    System.out.println(" 과목이 존재하지 않습니다. 다시 입력해야 합니다.");
-                }
-            }
-        }
-        if (!enrollments.isEmpty()) {
-            int studentId = IDGenerator.getInstance().generateId();
-            Student student = new Student(studentId, name, "Active", enrollments);
-            studentManager.addStudent(student);
-
-            System.out.println("학생 등록이 완료되었습니다.");
-            StudentView.displayStudentDetails(student);
-            mainPage();
-        } else {
-            System.out.println("최소개수의 과목을 선택하지 않아 학생을 등록할 수 없습니다.");
-        }
-    }
-
-    // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
-    private static List<Course> filterCoursesByType(List<Course> courses, String type) {
-        return courses.stream()
-                .filter(course -> course.getType().equals(type))
-                .collect(Collectors.toList());
-    }
-
-    private static void displayCourses(String header, List<Course> courses) {
-        System.out.println(header + ":");
-        courses.forEach(course -> System.out.printf(" %s (%s) |", course.getCourseName(), course.getCourseId()));
-        System.out.println("\n");
     }
 }
