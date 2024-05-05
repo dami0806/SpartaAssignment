@@ -9,6 +9,9 @@ import student.views.StudentView;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import static Score.controllers.ScoreController.convertGradeElectiveCourse;
+import static Score.controllers.ScoreController.convertGradeRequiredCourse;
+
 public class CourseEnrollmentController {
     static StudentView studentview = new StudentView();
 
@@ -87,6 +90,7 @@ public class CourseEnrollmentController {
 
                 } else {
                     System.out.println("더 이상 점수 입력을 진행하지 않습니다.");
+
                     break;
                 }
 
@@ -100,15 +104,28 @@ public class CourseEnrollmentController {
     //과목별 점수 수정하기
     public static void handleUpdateScores(BufferedReader br, Student student) {
         studentview.displayStudentDetails(student);
-    try {
+        try {
             String courseId = getValidCourseId(br, student);
+            if (courseId == null) {
+                System.out.println("입력한 과목 ID가 유효하지 않습니다.");
+                return;
+            }
 
             CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
-            getValidSession(br, student, courseEnrollment);
+            int session = getValidSession(br, student, courseEnrollment);
+            if (session == -1) {
+                System.out.println("유효한 회차 정보가 입력되지 않았습니다.");
+                return;
+            }
 
             int validScore = getValidScore(br);
-            courseEnrollment.updateScore(getValidSession(br, student, courseEnrollment), validScore);
+            if (validScore == -1) {
+                System.out.println("유효한 점수가 입력되지 않았습니다.");
+                return;
+            }
+            courseEnrollment.updateScore(session, validScore);
             displayAllCourseScores(student);
+            return;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -116,9 +133,9 @@ public class CourseEnrollmentController {
 
     // 유효한 과목ID
     private static String getValidCourseId(BufferedReader br, Student student) throws IOException {
-        System.out.println("점수를 수정할 과목의 ID를 입력하세요:");
-
+        System.out.println("과목의 ID를 입력하세요:");
         String courseId = br.readLine().trim();
+
         if (!student.getCourses().containsKey(courseId)) {
             System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
             return getValidCourseId(br, student);
@@ -131,22 +148,10 @@ public class CourseEnrollmentController {
     private static int getValidSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws
             IOException {
         System.out.println("수정할 회차를 입력하세요:");
-        displayScores(student, courseEnrollment);
-
-        int session = 0;
-        try {
-            session = Integer.parseInt(br.readLine().trim());
-            if (session < 1 || session > 10) {
-                System.out.println("유효한 섹션 범위를 지정해주세요(1-10)");
-                getValidSession(br, student, courseEnrollment);
-            }
-            if (!courseEnrollment.getScoresBySession().containsKey(session)) {
-                System.out.println("이전 섹션의 점수가 없습니다");
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println("유효한 숫자를 입력하세요.");
-            return getValidSession(br, student, courseEnrollment);
+        int session = Integer.parseInt(br.readLine().trim());
+        if (session < 1 || session > 10 || !courseEnrollment.getScoresBySession().containsKey(session)) {
+            System.out.println("유효한 섹션 범위를 지정해주세요(1-10), 또는 해당 섹션의 점수가 존재하지 않습니다.");
+            return -1;
         }
         return session;
     }
@@ -154,18 +159,17 @@ public class CourseEnrollmentController {
     // 유효한 점수
     private static int getValidScore(BufferedReader br) throws IOException {
         System.out.println("새로운 점수를 입력하세요:");
-        int newScore = 0;
         try {
-            newScore = Integer.parseInt(br.readLine());
+            int newScore = Integer.parseInt(br.readLine());
             if (newScore < 0 || newScore > 100) {
-                System.out.println("유효한 점수를 입력하세요.");
-                return getValidScore(br);
+                System.out.println("유효한 점수 범위는 0-100입니다.");
+                return -1;
             }
+            return newScore;
         } catch (NumberFormatException e) {
             System.out.println("유효한 숫자를 입력하세요.");
-            return getValidScore(br);
+            return -1;
         }
-        return newScore;
     }
 
 
@@ -186,16 +190,48 @@ public class CourseEnrollmentController {
         }
     }
 
-    private static void displayScores(Student student, CourseEnrollment courseEnrollment) {
-        System.out.printf("등록된[%s] 과목의 점수:\n");
-        if (student.getCourses().containsKey(courseEnrollment.getCourse().getCourseId())) {
-            System.out.println("과목: " + courseEnrollment.getCourse().getCourseName() + "의 점수");
 
-            for (int session = 1; session <= 10; session++) {
-                Score score = courseEnrollment.getScoresBySession().get(session);
-                String scoreOutput = (score != null) ? String.valueOf(score.getScore()) : "점수 없음";
-                System.out.printf(" 회차 %d: 점수 %s\n", session, scoreOutput);
+    public static void displaySessionGrades(BufferedReader br, Student student) throws IOException {
+
+        String courseId = "";
+        CourseEnrollment courseEnrollment = null;
+
+        while (true) {
+            System.out.println("등급을 조회할 과목의 ID를 입력하세요:");
+            courseId = br.readLine().trim();
+            courseEnrollment = student.getCourses().get(courseId);
+
+            if (courseEnrollment == null) {
+                System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
+            } else {
+                break;
             }
         }
+        int session = 0;
+
+        while (true) {
+            System.out.printf("[%s]의 조회하고 싶은 [회차]를 입력하세요:\n", courseEnrollment.getCourse().getCourseName());
+            try {
+                session = Integer.parseInt(br.readLine().trim());
+                if (!courseEnrollment.getScoresBySession().containsKey(session) || session < 1 || session > 10) {
+                    System.out.println("유효하지 않은 세션 번호입니다. 다시 입력해주세요.");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println("숫자를 입력해야 합니다.");
+            }
+        }
+
+        Score score = courseEnrollment.getScoresBySession().get(session);
+        // 선택 과목인지 필수 과목인지에 따라 등급을 변환합니다.
+        if (courseEnrollment.getCourse().getType().equalsIgnoreCase("REQUIRED")) {
+            convertGradeRequiredCourse(score);
+        } else if (courseEnrollment.getCourse().getType().equalsIgnoreCase("ELECTIVE")) {
+            convertGradeElectiveCourse(score);
+        }
+
+        System.out.printf("과목: %s, 회차: %d, 점수: %d, 등급: %s\n",
+                courseEnrollment.getCourse().getCourseName(), session, score.getScore(), score.getGrade());
     }
 }

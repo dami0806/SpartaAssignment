@@ -40,7 +40,7 @@ public class StudentController {
 
     //학생 이름 수정하기
     public void handleUpdateName(BufferedReader br) throws IOException {
-        view.displayStudentName(studentManager.getAllStudents());
+        view.displayBasicInfoStudent(studentManager.getAllStudents());
 
         System.out.println("이름을 변경할 학생의 고유번호를 입력하세요:");
 
@@ -59,7 +59,7 @@ public class StudentController {
 
     // 학생 지우기
     public void handleDeleteName(BufferedReader br) throws IOException {
-        view.displayStudentName(studentManager.getAllStudents());
+        view.displayBasicInfoStudent(studentManager.getAllStudents());
 
         System.out.println("삭제할 학생의 고유번호를 입력하세요:");
 
@@ -92,7 +92,4 @@ public class StudentController {
             }
         }
     }
-
-
-    //학생 지우기
 }

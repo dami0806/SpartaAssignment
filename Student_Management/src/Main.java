@@ -42,6 +42,7 @@ public class Main {
         System.out.print("관리 항목을 선택하세요...\n>> ");
 
         String input = br.readLine();
+
         switch (input) {
             case "1":
                 studentManageSession(br);
@@ -54,8 +55,7 @@ public class Main {
                 System.out.println("수강생 번호를 입력하세요:");
 
                 // 점수 관리 핸들러 호출
-                studentController.handleUpdateName(new BufferedReader(new InputStreamReader(System.in)));
-
+                //studentController.handleUpdateName(new BufferedReader(new InputStreamReader(System.in)));
                 mainPage();
 
                 break;
@@ -105,7 +105,8 @@ public class Main {
                 break;
             case "3":
                 // 수강생의 특정 과목 회차별 등급 조회
-                studentView.displayStudentDetails(student);
+                CourseEnrollmentController.displaySessionGrades(br, student);
+               // scoreSettingSession(br, student);
                 break;
             case "4":
                 manageScores(br);
@@ -222,39 +223,4 @@ public class Main {
         courses.forEach(course -> System.out.printf(" %s (%s) |", course.getCourseName(), course.getCourseId()));
         System.out.println("\n");
     }
-
-    /**
-     * 과목선택하기
-     *
-     * @param br:               입력값: 과목id
-     * @param availableCourses: 중복이나 해당 종류가 아닌 과목 선택 방지
-     * @param type:             필수과목, 선택과목
-     * @return : 선택된 List<Course>
-     * @throws IOException
-     */
-//    private static List<Course> selectCourses(BufferedReader br, List<Course> availableCourses, String type) throws IOException {
-//
-//        System.out.println("다음 중에서 " + type + " 과목을 최소 3개 선택해주세요:");
-//        List<Course> selectedCourses = new ArrayList<>();
-//
-//        while (selectedCourses.size() < 3) {
-//            System.out.print("과목 ID를 입력하세요: ");
-//            String courseId = br.readLine().trim(); // C01
-//
-//            if ("e".equalsIgnoreCase(courseId)) break;
-//
-//            Course course = availableCourses.stream()
-//                    .filter(c -> courseId.equals(c.getCourseId()))
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            if (course != null && !selectedCourses.contains(course)) {
-//                selectedCourses.add(course);
-//                System.out.println(course.getCourseName() + " 추가됨.");
-//            } else {
-//                System.out.println("유효하지 않거나 이미 추가된 과목입니다. 다시 입력해주세요.");
-//            }
-//        }
-//        return selectedCourses;
-//    }
 }
