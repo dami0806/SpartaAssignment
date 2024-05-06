@@ -2,8 +2,14 @@ package course.controllers;
 
 import Score.models.Score;
 import course.models.CourseEnrollment;
+import exception.course.InvalidCourseException;
+import exception.score.InvalidScoreException;
+import exception.couseEnrollment.InvalidSessionException;
+import exception.couseEnrollment.IsFullSessionException;
 import student.models.Student;
 import student.views.StudentView;
+import util.ErrorMessage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -31,6 +37,7 @@ public class CourseEnrollmentController {
         CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
 
         if (courseEnrollment == null) {
+
             System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
             return;
         }
@@ -38,36 +45,44 @@ public class CourseEnrollmentController {
         getAddScoreSession(br, student, courseEnrollment);
     }
 
-    public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
+    public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) {
         // 채워지지않은 섹션보여주기
+        try {
         int nextSession = findNextSession(courseEnrollment);
 
         System.out.printf("%d 회차에 점수를 입력하세요: ", nextSession);
-        int newScore = getValidScore(br);
-        try {
+
+            int newScore = getValidScore(br);
+
             courseEnrollment.addScore(nextSession, newScore); // 점수 추가
             System.out.println("점수가 성공적으로 추가되었습니다.");
             displayAllCourseScores(student);
             getMoreAddScoreSession(br, student, courseEnrollment);
-        } catch (Exception e) {
+        }
+        catch (InvalidScoreException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     //자동으로 채워지지않은 섹션보여주기
-    public static int findNextSession(CourseEnrollment courseEnrollment) {
+    public static int findNextSession(CourseEnrollment courseEnrollment) throws IsFullSessionException {
         int nextSession = 1;
         while (courseEnrollment.getScoresBySession().containsKey(nextSession)) {
             nextSession++;
             if (nextSession > 10) {
-                System.out.println("이미 모든섹션의 점수가 찼습니다.");
-                break;
+                throw new IsFullSessionException(ErrorMessage.IS_FULL_SESSION.getMessage());
             }
         }
         return nextSession;
     }
 
-    public static void getMoreAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
+    public static void getMoreAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException, IsFullSessionException {
         int nextSession = findNextSession(courseEnrollment);
 
         while (true) {
@@ -131,19 +146,21 @@ public class CourseEnrollmentController {
             // 호출
             displayAllCourseScores(student);
             return;
-        } catch (Exception e) {
+        }catch (InvalidCourseException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     // 유효한 과목ID
-    private static String getValidCourseId(BufferedReader br, Student student) throws IOException {
+    private static String getValidCourseId(BufferedReader br, Student student) throws Exception {
         System.out.println("과목의 ID를 입력하세요:");
         String courseId = br.readLine().trim();
 
         if (!student.getCourses().containsKey(courseId)) {
-            System.out.println("해당 ID의 과목이 존재하지 않습니다. 다시 입력해주세요.");
-            return getValidCourseId(br, student);
+            throw new Exception(ErrorMessage.INVALID_COURSE_ID.getMessage());
         }
         return courseId;
 
@@ -151,24 +168,22 @@ public class CourseEnrollmentController {
 
     // 유효한 섹션
     private static int getValidSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws
-            IOException {
+            InvalidSessionException, IOException {
         System.out.println("수정할 회차를 입력하세요:");
         int session = Integer.parseInt(br.readLine().trim());
         if (session < 1 || session > 10 || !courseEnrollment.getScoresBySession().containsKey(session)) {
-            System.out.println("유효한 섹션 범위를 지정해주세요(1-10), 또는 해당 섹션의 점수가 존재하지 않습니다.");
-            return -1;
+           throw new InvalidSessionException(ErrorMessage.INVALID_SESSION.getMessage());
         }
         return session;
     }
 
     // 유효한 점수
-    private static int getValidScore(BufferedReader br) throws IOException {
+    private static int getValidScore(BufferedReader br) throws IOException,InvalidScoreException {
         System.out.println("새로운 점수를 입력하세요:");
         try {
             int newScore = Integer.parseInt(br.readLine());
             if (newScore < 0 || newScore > 100) {
-                System.out.println("유효한 점수 범위는 0-100입니다.");
-                return -1;
+                throw new InvalidScoreException(ErrorMessage.INVALID_SCORE.getMessage());
             }
             return newScore;
         } catch (NumberFormatException e) {
@@ -200,10 +215,11 @@ public class CourseEnrollmentController {
 
         String courseId = "";
         CourseEnrollment courseEnrollment = null;
-
         while (true) {
             System.out.println("등급을 조회할 과목의 ID를 입력하세요:");
+
             courseId = br.readLine().trim();
+
             courseEnrollment = student.getCourses().get(courseId);
 
             if (courseEnrollment == null) {

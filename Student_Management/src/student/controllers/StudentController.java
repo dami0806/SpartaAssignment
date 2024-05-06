@@ -31,7 +31,6 @@ public class StudentController {
         this.view = view;
     }
 
-
     public static void handelStudentRegistration(BufferedReader br) throws IOException {
         String name = getStudentName(br);
         if (name == null) {

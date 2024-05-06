@@ -1,5 +1,4 @@
 import Score.models.Score;
-import collectionOfMessages.Messages;
 import course.controllers.CourseEnrollmentController;
 import course.models.Course;
 import course.models.CourseData;
