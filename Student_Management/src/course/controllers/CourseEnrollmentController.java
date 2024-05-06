@@ -166,15 +166,14 @@ public class CourseEnrollmentController {
     }
 
     // 유효한 과목ID
-    private static String getValidCourseId(BufferedReader br, Student student) throws Exception {
+    private static String getValidCourseId(BufferedReader br, Student student) throws InvalidCourseException , IOException {
         System.out.println("과목의 ID를 입력하세요:");
         String courseId = br.readLine().trim();
 
         if (!student.getCourses().containsKey(courseId)) {
-            throw new Exception(ErrorMessage.INVALID_COURSE_ID.getMessage());
+            throw new InvalidCourseException(ErrorMessage.INVALID_COURSE_ID.getMessage());
         }
         return courseId;
-
     }
 
     // 유효한 섹션
@@ -197,12 +196,12 @@ public class CourseEnrollmentController {
                 throw new InvalidScoreException(ErrorMessage.INVALID_SCORE.getMessage());
             }
             return newScore;
+
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
             return -1;
         }
     }
-
 
     /**
      * 과목별 섹션별 점수 출력표 >> 과목만 출력, 섹션별 출력으로도 나누기
@@ -256,7 +255,7 @@ public class CourseEnrollmentController {
         }
 
         Score score = courseEnrollment.getScoresBySession().get(session);
-        // 선택 과목인지 필수 과목인지에 따라 등급을 변환합니다.
+        // 선택 과목인지 필수 과목인지에 따라 등급을 변환
         if (courseEnrollment.getCourse().getType().equalsIgnoreCase("REQUIRED")) {
             convertGradeRequiredCourse(score);
         } else if (courseEnrollment.getCourse().getType().equalsIgnoreCase("ELECTIVE")) {

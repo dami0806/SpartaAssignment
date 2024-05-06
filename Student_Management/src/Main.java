@@ -78,7 +78,6 @@ public class Main {
     private static void manageScores(BufferedReader br) {
         try {
             System.out.println("수강생 번호를 입력하세요:");
-            //int studentId = Integer.parseInt(br.readLine());
             int studentId = studentController.getValidStudentId(br);
 
             Student student = studentManager.getStudent(studentId);

@@ -42,6 +42,7 @@ public class CourseEnrollment {
         if (score < 0 || score > 100) {
             throw new Exception("유효한 점수를 지정해주세요(0-100)");
         }
+
         scoresBySession.put(session, new Score(score, "A"));
     }
 
