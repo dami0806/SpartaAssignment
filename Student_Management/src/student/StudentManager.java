@@ -26,7 +26,6 @@ public class StudentManager {
     // 모든 학생 목록 출력
     public void displayAllStudents() {
         System.out.println("현재 등록된 모든 학생 목록:");
-       // students.forEach((id, student) -> displayStudentDetails(student));
         for (Student student : students.values()) {
             System.out.printf("ID: %d, 이름: %s\n", student.getId(), student.getName());
         }

@@ -1,13 +1,7 @@
 package course.models;
 
+import Score.controllers.ScoreController;
 import Score.models.Score;
-import course.models.Course;
-import student.models.Student;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.lang.reflect.AnnotatedType;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CourseEnrollment {
@@ -48,17 +42,32 @@ public class CourseEnrollment {
         if (score < 0 || score > 100) {
             throw new Exception("유효한 점수를 지정해주세요(0-100)");
         }
+
         scoresBySession.put(session, new Score(score, "A"));
     }
 
     // 점수 수정
-    public void updateScore(int session, int score) throws Exception {
-        int ses = session;
-        if (score < 0 || score > 100) {
+    public void updateScore(int session, int newScore) throws Exception {
+        // 세션 번호와 점수의 유효성 검사
+        if (session < 1 || session > 10) {
+            throw new Exception("유효한 섹션 범위를 지정해주세요(1-10)");
+        }
+        if (newScore < 0 || newScore > 100) {
             throw new Exception("유효한 점수를 지정해주세요(0-100)");
         }
-        int score_ = score;
 
-        scoresBySession.put(session, new Score(score, "A"));
+        // 점수 객체 찾기
+        Score score = scoresBySession.get(session);
+        if (score == null) {
+            throw new Exception("이전 섹션의 점수가 없음");
+        }
+        score.setScore(newScore);
+
+        // 과목의 종류에 따라 등급 변환
+        if (course.getType().equalsIgnoreCase("REQUIRED")) {
+            ScoreController.convertGradeRequiredCourse(score);
+        } else if (course.getType().equalsIgnoreCase("ELECTIVE")) {
+            ScoreController.convertGradeElectiveCourse(score);
+        }
     }
 }
