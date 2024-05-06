@@ -3,6 +3,7 @@ import course.controllers.CourseEnrollmentController;
 import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
+import exception.student.InvalidStudentIdException;
 import student.StudentManager;
 import student.controllers.StudentController;
 import student.models.IDGenerator;
@@ -74,18 +75,27 @@ public class Main {
     }
 
     // 선택된 학생에 대한 과목
-    private static void manageScores(BufferedReader br) throws IOException {
+    private static void manageScores(BufferedReader br) {
+        try {
+            System.out.println("수강생 번호를 입력하세요:");
+            //int studentId = Integer.parseInt(br.readLine());
+            int studentId = studentController.getValidStudentId(br);
 
-        System.out.println("수강생 번호를 입력하세요:");
-        int studentId = Integer.parseInt(br.readLine());
-        Student student = studentManager.getStudent(studentId);
-        scoreSettingSession(br, student);
+            Student student = studentManager.getStudent(studentId);
+            scoreSettingSession(br, student);
 
-        if (student == null) {
-            System.out.println("없는 학생입니다. 다시 시도하세요.");
-            manageScores(br); // 재시도
+            if (student == null) {
+                System.out.println("없는 학생입니다. 다시 시도하세요.");
+                manageScores(br); // 재시도
+            }
+        } catch (InvalidStudentIdException e){
+            System.out.println(e.getMessage());
+
+        } catch (IOException e){
+            System.out.println(e.getMessage());
         }
     }
+
 
     private static void scoreSettingSession(BufferedReader br, Student student) throws IOException {
         //2 점수관리

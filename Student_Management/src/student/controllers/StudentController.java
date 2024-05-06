@@ -3,10 +3,12 @@ package student.controllers;
 import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
+import exception.student.InvalidStudentIdException;
 import student.StudentManager;
 import student.models.IDGenerator;
 import student.models.Student;
 import student.views.StudentView;
+import util.ErrorMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +48,7 @@ public class StudentController {
             registerStudent(name, enrollments);
         }
     }
+
     private static void registerStudent(String name, Map<String, CourseEnrollment> enrollments) {
         int studentId = IDGenerator.getInstance().generateId();
         Student newStudent = new Student(studentId, name, "Active", enrollments);
@@ -54,6 +57,7 @@ public class StudentController {
         System.out.println("학생 등록이 완료되었습니다.");
         view.displayStudentDetails(newStudent);
     }
+
     private static String getStudentName(BufferedReader br) throws IOException {
         System.out.print("학생 이름을 입력하세요: ");
         String name = br.readLine();
@@ -103,27 +107,11 @@ public class StudentController {
         return enrollments;
     }
 
-    //선택한 courseId가 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
-    private static List<Course> filterSelectedCoursesByType(List<Course> courses, String type) {
-        return courses.stream()
-                .filter(course -> student.getCourses().containsKey(course.getCourseId()))
-                .collect(Collectors.toList());
-    }
-
     // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기
     private static List<Course> filterCoursesByType(List<Course> courses, String type) {
         return courses.stream()
                 .filter(course -> course.getType().equals(type))
                 .collect(Collectors.toList());
-    }
-
-    public void addCourses(List<Course> coursesToAdd) {
-
-        for (Course course : coursesToAdd) {
-            // enroll
-            CourseEnrollment courseEnrollment = new CourseEnrollment(course, new HashMap<>());
-            student.getCourses().put(course.getCourseId(), courseEnrollment);
-        }
     }
 
     private static void displayCourses(String header, List<Course> courses) {
@@ -133,57 +121,78 @@ public class StudentController {
     }
 
     //학생 이름 수정하기
-    public void handleUpdateName(BufferedReader br) throws IOException {
+    public void handleUpdateName(BufferedReader br) {
         StudentView.displayBasicInfoStudent(studentManager.getAllStudents());
 
         System.out.println("이름을 변경할 학생의 고유번호를 입력하세요:");
+        try {
+            int studentId = getValidStudentId(br); // 고유번호 입력 받기
 
-        int studentId = getValidStudentId(br); // 고유번호 입력 받기
+            Student studentToUpdate = studentManager.getStudentById(studentId);
 
-        Student studentToUpdate = studentManager.getStudentById(studentId);
-        if (studentToUpdate != null) {
             System.out.printf("변경하실 이름을 입력하세요 \n [현재 이름: %s] >> : ", studentToUpdate.getName());
             String newName = br.readLine().trim(); // 새 이름 입력 받기
             studentToUpdate.setName(newName); // 이름 변경
             System.out.println("이름이 성공적으로 변경되었습니다.");
-        } else {
-            System.out.println("해당 고유번호를 가진 학생이 존재하지 않습니다.");
+
+        } catch (InvalidStudentIdException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     // 학생 지우기
-    public void handleDeleteName(BufferedReader br) throws IOException {
+    public void handleDeleteName(BufferedReader br) {
         view.displayBasicInfoStudent(studentManager.getAllStudents());
 
-        System.out.println("삭제할 학생의 고유번호를 입력하세요:");
+        try {
+            System.out.println("삭제할 학생의 고유번호를 입력하세요:");
 
-        int studentId = getValidStudentId(br); // 고유번호 입력 받기
+            int studentId = getValidStudentId(br); // 고유번호 입력 받기
 
-        Student studentToUpdate = studentManager.getStudentById(studentId);
-        if (studentToUpdate != null) {
-            System.out.printf("삭제할 이름을 확인하세요 \n [현재 이름: %s]수강생을 정말 삭제하시겠습니까?(Y/N)\n >> : ", studentToUpdate.getName());
-            String answer = br.readLine().trim();
-            studentManager.deleteStudent(studentId);
-            System.out.println("성공적으로 삭제되었습니다.");
-        } else {
-            System.out.println("해당 고유   번호를 가진 학생이 존재하지 않습니다.");
+            Student studentToUpdate = studentManager.getStudentById(studentId);
+            if (studentToUpdate != null) {
+                System.out.printf("삭제할 이름을 확인하세요 \n [현재 이름: %s]수강생을 정말 삭제하시겠습니까?(Y/N)\n >> : ", studentToUpdate.getName());
+                String answer = br.readLine().trim();
+                studentManager.deleteStudent(studentId);
+                //freeId
+                IDGenerator.getInstance().freeId(studentId);
+                System.out.println("성공적으로 삭제되었습니다.");
+            } else {
+                System.out.println("해당 고유 번호를 가진 학생이 존재하지 않습니다.");
+            }
+        } catch (InvalidStudentIdException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     // 유효한 학생 id
-    private int getValidStudentId(BufferedReader br) throws IOException {
+    public int getValidStudentId(BufferedReader br) throws InvalidStudentIdException, IOException {
         while (true) {
+            System.out.print("학생 고유번호를 입력하세요: ");
+
             try {
-                System.out.print("학생 고유번호를 입력하세요: ");
-                int studentId = Integer.parseInt(br.readLine().trim());
+                String input = br.readLine();
+
+                int studentId = Integer.parseInt(input.trim());
+
+                if (studentManager.getStudentById(studentId) == null) {
+                    throw new InvalidStudentIdException(ErrorMessage.INVALID_STUDENTID.getMessage());
+                }
                 if (studentManager.getStudentById(studentId) != null) {
                     return studentId;
                 } else {
                     System.out.println("해당 고유번호를 가진 학생이 존재하지 않습니다. 다시 입력해주세요.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("유효한 숫자를 입력하세요.");
+                System.out.println(e.getMessage());
             }
+
         }
     }
 }
