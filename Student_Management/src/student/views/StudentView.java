@@ -8,7 +8,7 @@ import java.util.Map;
 public class StudentView {
 
     //학생 정보 출력
-    public static void displayStudentDetails(Student student) {
+    public void displayStudentDetails(Student student) {
 
         System.out.println("================== 학생 정보 =====================");
 
@@ -20,7 +20,7 @@ public class StudentView {
         System.out.println("=========================================");
     }
 
-    public static void displayBasicInfoStudent(Map<Integer, Student> students) {
+    public void displayBasicInfoStudent(Map<Integer, Student> students) {
 
         System.out.println("============== 학생 ID, 이름정보 ================================");
         students.forEach((id, student) -> System.out.printf("학생 ID: %d, 이름: %s\n ", id, student.getName()));
@@ -28,7 +28,7 @@ public class StudentView {
     }
 
     // 특정 과목의 정보만 출력
-    public static void displayCourseSessions(Student student, String courseId) {
+    public void displayCourseSessions(Student student, String courseId) {
 
         CourseEnrollment courseEnrollment = student.getCourses().get(courseId);
         if (courseEnrollment != null) {
@@ -45,9 +45,8 @@ public class StudentView {
         }
     }
 
-
     //    모든 학생 목록 출력 id
-    public static void displaysAllStudents(Map<Integer, Student> students) {
+    public void displaysAllStudents(Map<Integer, Student> students) {
         students.forEach((id, student) -> displayStudentDetails(student));
     }
 }

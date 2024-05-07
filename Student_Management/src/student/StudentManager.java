@@ -5,7 +5,6 @@ import student.models.Student;
 import java.util.HashMap;
 import java.util.Map;
 
-import static student.views.StudentView.displayStudentDetails;
 
 public class StudentManager {
     private Map<Integer, Student> students = new HashMap<>();

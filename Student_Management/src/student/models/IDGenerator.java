@@ -42,7 +42,6 @@ public class IDGenerator {
         }
         allocatedIds.add(currentId);
         return currentId++;
-
     }
 
     //사용끝난후 해제

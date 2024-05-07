@@ -23,8 +23,8 @@ public class CourseData {
         courses.add(new Course("D04", "MongoDB", "elective"));
 
     }
-    // 더미데이터 전체 불러오기
 
+    // 더미데이터 전체 불러오기
     public static List<Course> getCourseList() {
         return courses;
     }

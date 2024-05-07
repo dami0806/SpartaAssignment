@@ -22,12 +22,17 @@ import java.util.stream.Collectors;
 //과목id -
 //과목별 점수 입력하기
 
-// 역할분담을 이렇게 하는게 맞는지
 // 구조확인
 // 재활용이나 객체 생성
 // 초기 생성자만들때 모두 안넣는경우
-// 경우 실패시 재귀 호출 or 실패문
-// 코드에 대한 리뷰필요
+// 객체 생성 없이 와 static객체 생성 studentController
+// -> static으로 올릴때 고려할점 1. 이 프로세스 동작중 해당 스레드가 이 인스턴스를 보호할 수 있는지(이미 한명)
+// 프로세스가 죽어도 남아있는 static
+// 경우 실패시 재귀 호출 or else if 실패문 or > 예외처리 다시처리 =
+// 예외처리 던질때 클래스, 분리에 대해서
+// getter setter 사용 안할때도 만들어 놓고 있는지-> 지양
+
+// 코드에 대한 리뷰필요..
 public class Main {
     private static StudentManager studentManager = new StudentManager();
     private static StudentView studentView = new StudentView();

@@ -4,7 +4,6 @@ import Score.models.Score;
 import course.models.CourseEnrollment;
 import exception.course.InvalidCourseException;
 import exception.score.InvalidScoreException;
-import exception.couseEnrollment.InvalidSessionException;
 import exception.couseEnrollment.IsFullSessionException;
 import student.models.Student;
 import student.views.StudentView;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 import static Score.controllers.ScoreController.convertGradeElectiveCourse;
 import static Score.controllers.ScoreController.convertGradeRequiredCourse;
+import static util.ValidationUtils.*;
 
 public class CourseEnrollmentController {
     static StudentView studentview = new StudentView();
@@ -52,21 +52,20 @@ public class CourseEnrollmentController {
     public static void getAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) {
         // 채워지지않은 섹션보여주기
         try {
-            int nextSession = findNextSession(courseEnrollment);
+            int nextSession =  courseEnrollment.findNextSession();
 
-            System.out.printf("%d 회차에 점수를 입력하세요: ", nextSession);
+            System.out.printf("%d 회차에 점수를 입력하세요: \n", nextSession);
 
             int newScore = getValidScore(br);
 
-            courseEnrollment.addScore(nextSession, newScore); // 점수 추가
+            courseEnrollment.inputScore(nextSession, newScore); // 점수 추가
             System.out.println("점수가 성공적으로 추가되었습니다.");
             displayAllCourseScores(student);
             getMoreAddScoreSession(br, student, courseEnrollment);
 
-        }catch (IsFullSessionException e){
+        } catch (IsFullSessionException e) {
             System.out.println(e.getMessage());
-        }
-        catch (InvalidScoreException e) {
+        } catch (InvalidScoreException e) {
             System.out.println(e.getMessage());
 
         } catch (NumberFormatException e) {
@@ -77,22 +76,12 @@ public class CourseEnrollmentController {
         }
     }
 
-    //자동으로 채워지지않은 섹션보여주기
-    public static int findNextSession(CourseEnrollment courseEnrollment) throws IsFullSessionException {
-        int nextSession = 1;
-        while (courseEnrollment.getScoresBySession().containsKey(nextSession)) {
-            nextSession++;
-            if (nextSession > 10) {
-                throw new IsFullSessionException(ErrorMessage.IS_FULL_SESSION.getMessage());
-            }
-        }
-        return nextSession;
-    }
 
-    public static void getMoreAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException, IsFullSessionException {
+    public static void getMoreAddScoreSession(BufferedReader br, Student student, CourseEnrollment courseEnrollment) throws IOException {
 
         try {
-            int nextSession = findNextSession(courseEnrollment);
+
+            int nextSession =  courseEnrollment.findNextSession();
 
             while (true) {
                 System.out.printf("[%s 과목]의 다음[%d섹션]의 점수도 입력할건가요?(Y/N)\n",
@@ -119,7 +108,7 @@ public class CourseEnrollmentController {
                     System.out.println("Y/N로 입력해야 합니다.");
                 }
             }
-        } catch(IsFullSessionException e) {
+        } catch (IsFullSessionException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -144,6 +133,8 @@ public class CourseEnrollmentController {
             }
 
             // 해당 섹션 찾은 후 점수 입력
+            System.out.println("새로운 점수를 입력하세요:");
+
             int validScore = getValidScore(br);
             if (validScore == -1) {
                 System.out.println("유효한 점수가 입력되지 않았습니다.");
@@ -151,12 +142,14 @@ public class CourseEnrollmentController {
             }
 
             // 점수 업데이트
-            courseEnrollment.updateScore(session, validScore);
+            courseEnrollment.inputScore(session, validScore);
 
             // 호출
-            displayAllCourseScores(student);
+            displaySelectedCourseScores(courseEnrollment);
             return;
 
+        } catch (InvalidScoreException e) {
+            System.out.println(e.getMessage());
         } catch (InvalidCourseException e) {
             System.out.println(e.getMessage());
 
@@ -165,43 +158,6 @@ public class CourseEnrollmentController {
         }
     }
 
-    // 유효한 과목ID
-    private static String getValidCourseId(BufferedReader br, Student student) throws InvalidCourseException , IOException {
-        System.out.println("과목의 ID를 입력하세요:");
-        String courseId = br.readLine().trim();
-
-        if (!student.getCourses().containsKey(courseId)) {
-            throw new InvalidCourseException(ErrorMessage.INVALID_COURSE_ID.getMessage());
-        }
-        return courseId;
-    }
-
-    // 유효한 섹션
-    private static int getValidSession(BufferedReader br, CourseEnrollment courseEnrollment) throws
-            InvalidSessionException, IOException {
-        System.out.println("수정할 회차를 입력하세요:");
-        int session = Integer.parseInt(br.readLine().trim());
-        if (session < 1 || session > 10 || !courseEnrollment.getScoresBySession().containsKey(session)) {
-            throw new InvalidSessionException(ErrorMessage.INVALID_SESSION.getMessage());
-        }
-        return session;
-    }
-
-    // 유효한 점수
-    private static int getValidScore(BufferedReader br) throws IOException, InvalidScoreException {
-        System.out.println("새로운 점수를 입력하세요:");
-        try {
-            int newScore = Integer.parseInt(br.readLine());
-            if (newScore < 0 || newScore > 100) {
-                throw new InvalidScoreException(ErrorMessage.INVALID_SCORE.getMessage());
-            }
-            return newScore;
-
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-            return -1;
-        }
-    }
 
     /**
      * 과목별 섹션별 점수 출력표 >> 과목만 출력, 섹션별 출력으로도 나누기
@@ -217,6 +173,16 @@ public class CourseEnrollmentController {
                 String scoreOutput = (score != null) ? String.valueOf(score.getScore()) : "점수 없음";
                 System.out.printf(" 회차 %d: 점수 %s\n", session, scoreOutput);
             }
+        }
+    }
+
+    //특정 과목의 점수만
+    private static void displaySelectedCourseScores(CourseEnrollment enrollment) {
+        System.out.println("과목: " + enrollment.getCourse().getCourseName() + "의 점수");
+        for (int session = 1; session <= 10; session++) {
+            Score score = enrollment.getScoresBySession().get(session);
+            String scoreOutput = (score != null) ? String.valueOf(score.getScore()) : "점수 없음";
+            System.out.printf(" 회차 %d: 점수 %s\n", session, scoreOutput);
         }
     }
 
