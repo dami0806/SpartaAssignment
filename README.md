@@ -35,23 +35,23 @@
 ### 학생관리 시스템
 | 기능                    | 화면 설명                                      | 기술 설명 |
 |-------------------------|----------------------------------------------|-----------|
-| 메인화면                | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/e610952a-46dd-451e-b1bc-6b238e614709"> | 메인 화면을 보여주는 대표 이미지 |
-| 수강생 관리             | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/1de31a9a-e973-443e-a8f1-c471ae2ecd11"> | 수강생 관리의 주요 기능들을 나타내는 화면: 등록, 목록 조회, 정보 수정, 정보 삭제, 메인 화면 이동 |
-| 수강생 등록             | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/305f492e-e400-47e0-a395-6d438733df8d"> | 새로운 수강생을 등록하는 화면 |
-| 등록 실패               | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/5d8c3fc2-2f32-4965-941a-3b26ca08be9e"> | 필수과목을 제대로 선택하지 않았을 때의 등록 실패 화면 |
-| 등록 성공               | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/56b6f950-9f25-4656-b2b2-fb9ab1610d05"> | 수강생이 제대로 등록된 화면 |
-| 정보 수정               | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/4033f62b-ec35-405b-a420-5570a4ed5424"> | 수강생의 이름을 변경하는 화면 |
-| 목록 조회               | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/494de4e6-1e0d-4bb0-9691-4555659e2dd9"> | 정보 수정 후 변경된 목록을 보여주는 화면 |
-| 수강생 삭제             | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/6f264831-4061-4dde-bb32-c6f10f586d89">  | 특정 수강생(예: 1번)을 삭제하는 화면 |
-| 수강생 추가 후 ID 재사용 | <img width="80%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/6f264831-4061-4dde-bb32-c6f10f586d89"> <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/ecea3f26-d536-4e08-b882-bce790e0e3f3"> <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/b7fb4452-8ccc-401f-8923-070d6fd9b0ce"> | 삭제된 ID를 재사용하여 새 수강생을 추가하는 화면 |
+| 메인화면                | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/e610952a-46dd-451e-b1bc-6b238e614709"> | 메인 화면을 보여주는 대표 이미지 |
+| 수강생 관리             | <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/1de31a9a-e973-443e-a8f1-c471ae2ecd11"> | 수강생 관리의 주요 기능들을 나타내는 화면: 등록, 목록 조회, 정보 수정, 정보 삭제, 메인 화면 이동 |
+| 수강생 등록             | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/305f492e-e400-47e0-a395-6d438733df8d"> | 새로운 수강생을 등록하는 화면 |
+| 등록 실패               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/5d8c3fc2-2f32-4965-941a-3b26ca08be9e"> | 필수과목을 제대로 선택하지 않았을 때의 등록 실패 화면 |
+| 등록 성공               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/56b6f950-9f25-4656-b2b2-fb9ab1610d05"> | 수강생이 제대로 등록된 화면 |
+| 정보 수정               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/4033f62b-ec35-405b-a420-5570a4ed5424"> | 수강생의 이름을 변경하는 화면 |
+| 목록 조회               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/494de4e6-1e0d-4bb0-9691-4555659e2dd9"> | 정보 수정 후 변경된 목록을 보여주는 화면 |
+| 수강생 삭제             | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/6f264831-4061-4dde-bb32-c6f10f586d89">  | 특정 수강생(예: 1번)을 삭제하는 화면 |
+| 수강생 추가 후 ID 재사용 | <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/ecea3f26-d536-4e08-b882-bce790e0e3f3"> <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/b7fb4452-8ccc-401f-8923-070d6fd9b0ce"> | 삭제된 ID를 재사용하여 새 수강생을 추가하는 화면 |
 | **점수 관리**           | **점수 관리 실행 중**                          | **점수 관리에 관련된 다양한 활동을 보여주는 화면** |
-| 점수 등록               | <img width="70%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/59d2f26a-52fa-4072-913d-33873b170a2b"> | 과목 선택 후 점수를 등록하는 화면과 추가 입력이 필요한 문구가 보이는 화면 |
+| 점수 등록               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/59d2f26a-52fa-4072-913d-33873b170a2b"> | 과목 선택 후 점수를 등록하는 화면과 추가 입력이 필요한 문구가 보이는 화면 |
 | 다음 점수 등록          | <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/49f31bf6-e999-48f4-9578-f1c0575f4310"> <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/41458b88-5c9f-4c16-b4f9-4f4a5aec167a"> <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/6372f894-0963-4a04-b772-81d21e1030c0"> | 과목 선택 후 점수를 등록하는 화면과 추가 입력이 필요한 문구가 보이는 화면 |
-| 점수 나갔다가 들어와서 이어서 등록    | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/67911319-373e-467b-b758-ba654d03605b"> <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/2aa07642-106b-41c0-935d-259c94dabb20">| 과목 선택 후 점수를 등록하는 화면과 추가 입력이 필요한 문구가 보이는 화면 |
+| 점수 나갔다가 들어와서 이어서 등록    | <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/67911319-373e-467b-b758-ba654d03605b"> <img width="30%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/2aa07642-106b-41c0-935d-259c94dabb20">| 과목 선택 후 점수를 등록하는 화면과 추가 입력이 필요한 문구가 보이는 화면 |
 | 점수 등급 조회          | <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/7fd9c3e3-7a97-4b24-8c47-c66c34b994d6"> <img width="40%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/77a69776-0f96-4d76-90c1-77849a663acc"> | 필수과목과 선택과목의 점수 등급을 조회하는 화면 |
-| 점수 수정               | <img width="70%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/5bd43bea-83b6-4182-aec1-01b385b9cee2"> | 수강생의 과목별 회차 점수를 수정하는 화면 |
-| 수정된 필수과목 등급 확인(95점) | <img width="70%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/a2d70f18-69f6-4df8-a664-83cbdfdf3996"> | 수정 후 필수과목 점수 95점을 확인하는 화면 |
-|프로그램 종료 | <img width="397" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/aaebdec7-a250-46c5-857e-bcd3908218d6">| 작업이 끝난후 프로그램을 종료 |
+| 점수 수정               | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/5bd43bea-83b6-4182-aec1-01b385b9cee2"> | 수강생의 과목별 회차 점수를 수정하는 화면 |
+| 수정된 필수과목 등급 확인(95점) | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/a2d70f18-69f6-4df8-a664-83cbdfdf3996"> | 수정 후 필수과목 점수 95점을 확인하는 화면 |
+|프로그램 종료 | <img width="50%" alt="image" src="https://github.com/dami0806/SpartaAssignment/assets/85047035/aaebdec7-a250-46c5-857e-bcd3908218d6">| 작업이 끝난후 프로그램을 종료 |
 
  ---
   
