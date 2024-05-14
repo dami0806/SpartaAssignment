@@ -4,7 +4,6 @@ import course.models.Course;
 import course.models.CourseData;
 import course.models.CourseEnrollment;
 import exception.student.InvalidStudentIdException;
-import student.StudentManager;
 import student.models.IDGenerator;
 import student.models.Student;
 import student.views.StudentView;
@@ -16,21 +15,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StudentController {
-    private static Student student;
     private static StudentView view;
     private static StudentManager studentManager;
 
     public StudentController(StudentView view, StudentManager studentManager) {
         this.view = view;
         this.studentManager = studentManager;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public void setView(StudentView view) {
-        this.view = view;
     }
 
     public static void handelStudentRegistration(BufferedReader br) throws IOException {
@@ -157,12 +147,14 @@ public class StudentController {
             if (studentToUpdate != null) {
                 System.out.printf("삭제할 이름을 확인하세요 \n [현재 이름: %s]수강생을 정말 삭제하시겠습니까?(Y/N)\n >> : ", studentToUpdate.getName());
                 String answer = br.readLine().trim();
-                studentManager.deleteStudent(studentId);
-                //freeId
-                IDGenerator.getInstance().freeId(studentId);
-                System.out.println("성공적으로 삭제되었습니다.");
-            } else {
-                System.out.println("해당 고유 번호를 가진 학생이 존재하지 않습니다.");
+                if (answer.equalsIgnoreCase("Y")) {
+                    studentManager.deleteStudent(studentId);
+                    //freeId
+                    IDGenerator.getInstance().freeId(studentId);
+                    System.out.println("성공적으로 삭제되었습니다.");
+                } else {
+                    System.out.println("해당 고유 번호를 가진 학생이 존재하지 않습니다.");
+                }
             }
         } catch (InvalidStudentIdException e) {
             System.out.println(e.getMessage());

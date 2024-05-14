@@ -1,20 +1,13 @@
-import Score.models.Score;
 import course.controllers.CourseEnrollmentController;
-import course.models.Course;
-import course.models.CourseData;
-import course.models.CourseEnrollment;
 import exception.student.InvalidStudentIdException;
-import student.StudentManager;
+import student.controllers.StudentManager;
 import student.controllers.StudentController;
-import student.models.IDGenerator;
 import student.models.Student;
 import student.views.StudentView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-import java.util.stream.Collectors;
 
 
 // 필수과목인지 선택과목인지 타입에 맞춰서 불러오기

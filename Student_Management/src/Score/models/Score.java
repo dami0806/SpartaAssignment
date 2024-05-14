@@ -14,10 +14,6 @@ public class Score {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public String getGrade() {
         return grade;
     }

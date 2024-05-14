@@ -8,7 +8,7 @@ public class ScoreController {
     public static void convertGradeRequiredCourse(Score score) {
         int points = score.getScore();
         String grade = "";
-        if (points >= 95) grade = "A";
+        if ((100 >= points) && (points >= 95)) grade = "A";
         else if (points >= 90) grade = "B";
         else if (points >= 80) grade = "C";
         else if (points >= 70) grade = "D";

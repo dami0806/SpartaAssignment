@@ -7,7 +7,6 @@ import exception.score.InvalidScoreException;
 import exception.couseEnrollment.IsFullSessionException;
 import student.models.Student;
 import student.views.StudentView;
-import util.ErrorMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -205,8 +204,11 @@ public class CourseEnrollmentController {
             }
         }
         int session = 0;
+        System.out.println("모든 세션의 성적을 보려면 'ALL'을 입력하고, 특정 세션만 보려면 세션 번호를 입력하세요:");
+        String input = br.readLine().trim();
+        if(input.equalsIgnoreCase("ALL")) {}
 
-        while (true) {
+            while (true) {
             System.out.printf("[%s]의 조회하고 싶은 [회차]를 입력하세요:\n", courseEnrollment.getCourse().getCourseName());
             try {
                 session = Integer.parseInt(br.readLine().trim());

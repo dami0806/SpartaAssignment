@@ -9,18 +9,6 @@ public class Course {
     private String courseName; // 과목 이름
     private String type;  // "required" or "elective"
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getCourseId() {
         return courseId;
     }
